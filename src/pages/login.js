@@ -54,7 +54,7 @@ class login extends Component {
   }
 
   componentDidUpdate(nextProps) {
-    console.log('jmk nextProps', nextProps);
+    // console.log('jmk nextProps', nextProps);
     // if ('errors' in nextProps.UI) {
     //   if (nextProps.UI.errors) {
     //     this.setState({
@@ -87,6 +87,7 @@ class login extends Component {
         this.props.history.push('/');
       })
       .catch((error) => {
+        console.log('jmk errors', error);
         this.setState({
           errors: error.response.data,
           loading: false,
