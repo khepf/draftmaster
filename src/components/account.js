@@ -75,9 +75,7 @@ class account extends Component {
       firstName: '',
       lastName: '',
       email: '',
-      phoneNumber: '',
       username: '',
-      country: '',
       profilePicture: '',
       uiLoading: true,
       buttonLoading: false,
@@ -97,8 +95,6 @@ class account extends Component {
           firstName: response.data.userCredentials.firstName,
           lastName: response.data.userCredentials.lastName,
           email: response.data.userCredentials.email,
-          phoneNumber: response.data.userCredentials.phoneNumber,
-          country: response.data.userCredentials.country,
           username: response.data.userCredentials.username,
           uiLoading: false,
         });
@@ -165,7 +161,6 @@ class account extends Component {
     const formRequest = {
       firstName: this.state.firstName,
       lastName: this.state.lastName,
-      country: this.state.country,
     };
     axios
       .post('/user', formRequest)
@@ -277,19 +272,7 @@ class account extends Component {
                       onChange={this.handleChange}
                     />
                   </Grid>
-                  <Grid item md={6} xs={12}>
-                    <TextField
-                      fullWidth
-                      label="Phone Number"
-                      margin="dense"
-                      name="phone"
-                      type="number"
-                      variant="outlined"
-                      disabled={true}
-                      value={this.state.phoneNumber}
-                      onChange={this.handleChange}
-                    />
-                  </Grid>
+
                   <Grid item md={6} xs={12}>
                     <TextField
                       fullWidth
@@ -299,17 +282,6 @@ class account extends Component {
                       disabled={true}
                       variant="outlined"
                       value={this.state.username}
-                      onChange={this.handleChange}
-                    />
-                  </Grid>
-                  <Grid item md={6} xs={12}>
-                    <TextField
-                      fullWidth
-                      label="Country"
-                      margin="dense"
-                      name="country"
-                      variant="outlined"
-                      value={this.state.country}
                       onChange={this.handleChange}
                     />
                   </Grid>
@@ -328,8 +300,7 @@ class account extends Component {
             disabled={
               this.state.buttonLoading ||
               !this.state.firstName ||
-              !this.state.lastName ||
-              !this.state.country
+              !this.state.lastName
             }
           >
             Save details
