@@ -164,24 +164,24 @@ class home extends Component {
             <List>
               <ListItem button key="Todo" onClick={this.loadTodoPage}>
                 <ListItemIcon>
-                  {' '}
-                  <NotesIcon />{' '}
+                  
+                  <NotesIcon />
                 </ListItemIcon>
                 <ListItemText primary="Todo" />
               </ListItem>
 
               <ListItem button key="Account" onClick={this.loadAccountPage}>
                 <ListItemIcon>
-                  {' '}
-                  <AccountBoxIcon />{' '}
+            
+                  <AccountBoxIcon />
                 </ListItemIcon>
                 <ListItemText primary="Account" />
               </ListItem>
 
               <ListItem button key="Logout" onClick={this.logoutHandler}>
                 <ListItemIcon>
-                  {' '}
-                  <ExitToAppIcon />{' '}
+           
+                  <ExitToAppIcon />
                 </ListItemIcon>
                 <ListItemText primary="Logout" />
               </ListItem>
