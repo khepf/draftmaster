@@ -53,14 +53,15 @@ class login extends Component {
     };
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if ('errors' in nextProps.UI) {
-      if (nextProps.UI.errors) {
-        this.setState({
-          errors: nextProps.UI.errors,
-        });
-      }
-    }
+  componentDidUpdate(nextProps) {
+    console.log('jmk nextProps', nextProps);
+    // if ('errors' in nextProps.UI) {
+    //   if (nextProps.UI.errors) {
+    //     this.setState({
+    //       errors: nextProps.UI.errors,
+    //     });
+    //   }
+    // }
   }
 
   handleChange = (event) => {
