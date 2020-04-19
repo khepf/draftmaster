@@ -78,7 +78,10 @@ class login extends Component {
       password: this.state.password,
     };
     axios
-      .post('/login', userData)
+      .post(
+        'https://us-central1-draftmaster-3fe86.cloudfunctions.net/api/login',
+        userData
+      )
       .then((response) => {
         console.log('jmk 1. response', response);
         localStorage.setItem('AuthToken', `Bearer ${response.data.token}`);
