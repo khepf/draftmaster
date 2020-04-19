@@ -125,7 +125,7 @@ class todo extends Component {
     const authToken = localStorage.getItem('AuthToken');
     axios.defaults.headers.common = { Authorization: `${authToken}` };
     axios
-      .get('/todos')
+      .get('https://us-central1-draftmaster-3fe86.cloudfunctions.net/api/todos')
       .then((response) => {
         this.setState({
           todos: response.data,
@@ -143,7 +143,9 @@ class todo extends Component {
     axios.defaults.headers.common = { Authorization: `${authToken}` };
     let todoId = data.todo.todoId;
     axios
-      .delete(`todo/${todoId}`)
+      .delete(
+        `https://us-central1-draftmaster-3fe86.cloudfunctions.net/api/todo/${todoId}`
+      )
       .then(() => {
         window.location.reload();
       })
@@ -219,13 +221,14 @@ class todo extends Component {
       let options = {};
       if (this.state.buttonType === 'Edit') {
         options = {
-          url: `/todo/${this.state.todoId}`,
+          url: `https://us-central1-draftmaster-3fe86.cloudfunctions.net/api/todo/${this.state.todoId}`,
           method: 'put',
           data: userTodo,
         };
       } else {
         options = {
-          url: '/todo',
+          url:
+            'https://us-central1-draftmaster-3fe86.cloudfunctions.net/api/todo',
           method: 'post',
           data: userTodo,
         };
