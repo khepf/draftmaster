@@ -55,7 +55,8 @@ class ExcelReader extends Component {
         const authToken = localStorage.getItem('AuthToken');
         axios.defaults.headers.common = { Authorization: `${authToken}` };
         const options = {
-          url: '/players',
+          url:
+            'https://us-central1-draftmaster-3fe86.cloudfunctions.net/api/players',
           method: 'post',
           data: playerNames,
         };

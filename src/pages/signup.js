@@ -75,7 +75,10 @@ class signup extends Component {
       confirmPassword: this.state.confirmPassword,
     };
     axios
-      .post('/signup', newUserData)
+      .post(
+        'https://us-central1-draftmaster-3fe86.cloudfunctions.net/api/signup',
+        newUserData
+      )
       .then((response) => {
         localStorage.setItem('AuthToken', `Bearer ${response.data.token}`);
         this.setState({
