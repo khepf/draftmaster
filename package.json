@@ -40,6 +40,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://us-central1-draftmaster-3fe86.cloudfunctions.net/api",
-  "homepage": "https://khepf.github.io/draftmaster"
+  "proxy": "https://us-central1-draftmaster-3fe86.cloudfunctions.net/api"
 }
