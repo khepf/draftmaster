@@ -103,7 +103,7 @@ class home extends Component {
     const authToken = localStorage.getItem('AuthToken');
     axios.defaults.headers.common = { Authorization: `${authToken}` };
     axios
-      .get('/user')
+      .get('https://us-central1-draftmaster-3fe86.cloudfunctions.net/api/user')
       .then((response) => {
         console.log(response);
         if (this._isMounted) {
@@ -117,11 +117,11 @@ class home extends Component {
       })
       .catch((error) => {
         console.log('jmk error', error);
-        if (error.response.status === 403) {
-          this.props.history.push('/login');
-        }
-        console.log(error);
-        this.setState({ errorMsg: 'Error in retrieving the data' });
+        // if (error.response.status === 403) {
+        //   this.props.history.push('/login');
+        // }
+    
+        this.setState({ errorMsg: error });
       });
   };
 
