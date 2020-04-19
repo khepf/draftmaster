@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.js": "/draftmaster/static/js/main.b9b0b569.chunk.js",
+    "main.js.map": "/draftmaster/static/js/main.b9b0b569.chunk.js.map",
+    "runtime-main.js": "/draftmaster/static/js/runtime-main.a5c83816.js",
+    "runtime-main.js.map": "/draftmaster/static/js/runtime-main.a5c83816.js.map",
+    "static/js/2.3529a6ce.chunk.js": "/draftmaster/static/js/2.3529a6ce.chunk.js",
+    "static/js/2.3529a6ce.chunk.js.map": "/draftmaster/static/js/2.3529a6ce.chunk.js.map",
+    "index.html": "/draftmaster/index.html",
+    "precache-manifest.68f9e06168b00399c5608565fc17ccd2.js": "/draftmaster/precache-manifest.68f9e06168b00399c5608565fc17ccd2.js",
+    "service-worker.js": "/draftmaster/service-worker.js",
+    "static/js/2.3529a6ce.chunk.js.LICENSE.txt": "/draftmaster/static/js/2.3529a6ce.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.a5c83816.js",
+    "static/js/2.3529a6ce.chunk.js",
+    "static/js/main.b9b0b569.chunk.js"
+  ]
+}
