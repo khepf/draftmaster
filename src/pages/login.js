@@ -80,11 +80,15 @@ class login extends Component {
     axios
       .post('/login', userData)
       .then((response) => {
+        console.log('jmk 1. response', response);
         localStorage.setItem('AuthToken', `Bearer ${response.data.token}`);
+        console.log('jmk 2. token', response.data.token);
         this.setState({
           loading: false,
         });
+        console.log('jmk 3. loading?', this.state.loading);
         this.props.history.push('/');
+        console.log('jmk 4. props after push', this.props);
       })
       .catch((error) => {
         console.log('jmk errors', error);
@@ -92,6 +96,8 @@ class login extends Component {
           errors: error.response.data,
           loading: false,
         });
+        console.log('jmk 2. errors', this.state.errors);
+        console.log('jmk 3. loading', this.state.loading);
       });
   };
 

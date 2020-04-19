@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import Account from '../components/account';
 import Todo from '../components/todo';
+import Admin from '../components/admin';
 
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
@@ -16,6 +17,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import withStyles from '@material-ui/core/styles/withStyles';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
+import FingerprintIcon from '@material-ui/icons/Fingerprint';
 import NotesIcon from '@material-ui/icons/Notes';
 import Avatar from '@material-ui/core/Avatar';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
@@ -63,17 +65,10 @@ const styles = (theme) => ({
 
 class home extends Component {
   _isMounted = false;
-  state = {
-    render: false,
-  };
 
-  loadAccountPage = (event) => {
-    this.setState({ render: true });
-  };
-
-  loadTodoPage = (event) => {
-    this.setState({ render: false });
-  };
+  tabChange(tabName) {
+    this.setState({ tabName });
+  }
 
   logoutHandler = (event) => {
     localStorage.removeItem('AuthToken');
@@ -84,12 +79,22 @@ class home extends Component {
     super(props);
 
     this.state = {
-      firstName: '',
-      lastName: '',
       profilePicture: '',
       uiLoading: true,
       imageLoading: false,
+      tabName: 'todo',
     };
+  }
+
+  renderTab() {
+    switch (this.state.tabName) {
+      case 'account':
+        return <Account />;
+      case 'todo':
+        return <Todo />;
+      case 'admin':
+        return <Admin />;
+    }
   }
 
   componentDidMount = () => {
@@ -102,15 +107,13 @@ class home extends Component {
       .then((response) => {
         console.log(response);
         if (this._isMounted) {
-        this.setState({
-          firstName: response.data.userCredentials.firstName,
-          lastName: response.data.userCredentials.lastName,
-          email: response.data.userCredentials.email,
-          username: response.data.userCredentials.username,
-          uiLoading: false,
-          profilePicture: response.data.userCredentials.imageUrl,
-        });
-      }
+          this.setState({
+            email: response.data.userCredentials.email,
+            username: response.data.userCredentials.username,
+            uiLoading: false,
+            profilePicture: response.data.userCredentials.imageUrl,
+          });
+        }
       })
       .catch((error) => {
         console.log('jmk error', error);
@@ -161,25 +164,40 @@ class home extends Component {
                 src={this.state.profilePicture}
                 className={classes.avatar}
               />
-              <p>
-                {' '}
-                {this.state.firstName} {this.state.lastName}
-              </p>
             </center>
             <Divider />
             <List>
-              <ListItem button key="Todo" onClick={this.loadTodoPage}>
+              <ListItem
+                button
+                key="Todo"
+                onClick={this.tabChange.bind(this, 'todo')}
+              >
                 <ListItemIcon>
                   <NotesIcon />
                 </ListItemIcon>
                 <ListItemText primary="Todo" />
               </ListItem>
 
-              <ListItem button key="Account" onClick={this.loadAccountPage}>
+              <ListItem
+                button
+                key="Account"
+                onClick={this.tabChange.bind(this, 'account')}
+              >
                 <ListItemIcon>
                   <AccountBoxIcon />
                 </ListItemIcon>
                 <ListItemText primary="Account" />
+              </ListItem>
+
+              <ListItem
+                button
+                key="Admin"
+                onClick={this.tabChange.bind(this, 'admin')}
+              >
+                <ListItemIcon>
+                  <FingerprintIcon />
+                </ListItemIcon>
+                <ListItemText primary="Admin" />
               </ListItem>
 
               <ListItem button key="Logout" onClick={this.logoutHandler}>
@@ -190,8 +208,7 @@ class home extends Component {
               </ListItem>
             </List>
           </Drawer>
-
-          <div>{this.state.render ? <Account /> : <Todo />}</div>
+          <div>{this.renderTab()}</div>
         </div>
       );
     }

@@ -72,8 +72,6 @@ class account extends Component {
     super(props);
 
     this.state = {
-      firstName: '',
-      lastName: '',
       email: '',
       username: '',
       profilePicture: '',
@@ -92,8 +90,6 @@ class account extends Component {
       .then((response) => {
         console.log(response.data);
         this.setState({
-          firstName: response.data.userCredentials.firstName,
-          lastName: response.data.userCredentials.lastName,
           email: response.data.userCredentials.email,
           username: response.data.userCredentials.username,
           uiLoading: false,
@@ -152,31 +148,7 @@ class account extends Component {
       });
   };
 
-  updateFormValues = (event) => {
-    event.preventDefault();
-    this.setState({ buttonLoading: true });
-    authMiddleWare(this.props.history);
-    const authToken = localStorage.getItem('AuthToken');
-    axios.defaults.headers.common = { Authorization: `${authToken}` };
-    const formRequest = {
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-    };
-    axios
-      .post('/user', formRequest)
-      .then(() => {
-        this.setState({ buttonLoading: false });
-      })
-      .catch((error) => {
-        if (error.response.status === 403) {
-          this.props.history.push('/login');
-        }
-        console.log(error);
-        this.setState({
-          buttonLoading: false,
-        });
-      });
-  };
+
 
   render() {
     const { classes, ...rest } = this.props;
@@ -202,7 +174,6 @@ class account extends Component {
                     gutterBottom
                     variant="h4"
                   >
-                    {this.state.firstName} {this.state.lastName}
                   </Typography>
                   <Button
                     variant="outlined"
@@ -238,28 +209,7 @@ class account extends Component {
               <Divider />
               <CardContent>
                 <Grid container spacing={3}>
-                  <Grid item md={6} xs={12}>
-                    <TextField
-                      fullWidth
-                      label="First name"
-                      margin="dense"
-                      name="firstName"
-                      variant="outlined"
-                      value={this.state.firstName}
-                      onChange={this.handleChange}
-                    />
-                  </Grid>
-                  <Grid item md={6} xs={12}>
-                    <TextField
-                      fullWidth
-                      label="Last name"
-                      margin="dense"
-                      name="lastName"
-                      variant="outlined"
-                      value={this.state.lastName}
-                      onChange={this.handleChange}
-                    />
-                  </Grid>
+
                   <Grid item md={6} xs={12}>
                     <TextField
                       fullWidth
@@ -268,8 +218,7 @@ class account extends Component {
                       name="email"
                       variant="outlined"
                       disabled={true}
-                      value={this.state.email}
-                      onChange={this.handleChange}
+                      value={this.state.email} 
                     />
                   </Grid>
 
@@ -282,32 +231,13 @@ class account extends Component {
                       disabled={true}
                       variant="outlined"
                       value={this.state.username}
-                      onChange={this.handleChange}
                     />
                   </Grid>
                 </Grid>
               </CardContent>
-              <Divider />
               <CardActions />
             </form>
           </Card>
-          <Button
-            color="primary"
-            variant="contained"
-            type="submit"
-            className={classes.submitButton}
-            onClick={this.updateFormValues}
-            disabled={
-              this.state.buttonLoading ||
-              !this.state.firstName ||
-              !this.state.lastName
-            }
-          >
-            Save details
-            {this.state.buttonLoading && (
-              <CircularProgress size={30} className={classes.progess} />
-            )}
-          </Button>
         </main>
       );
     }

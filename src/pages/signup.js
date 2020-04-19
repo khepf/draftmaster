@@ -41,8 +41,6 @@ class signup extends Component {
     super(props);
 
     this.state = {
-      firstName: '',
-      lastName: '',
       username: '',
       email: '',
       password: '',
@@ -71,8 +69,6 @@ class signup extends Component {
     event.preventDefault();
     this.setState({ loading: true });
     const newUserData = {
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
       username: this.state.username,
       email: this.state.email,
       password: this.state.password,
@@ -110,35 +106,6 @@ class signup extends Component {
           </Typography>
           <form className={classes.form} noValidate>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  id="firstName"
-                  label="First Name"
-                  name="firstName"
-                  autoComplete="firstName"
-                  helperText={errors.firstName}
-                  error={errors.firstName ? true : false}
-                  onChange={this.handleChange}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="lastName"
-                  helperText={errors.lastName}
-                  error={errors.lastName ? true : false}
-                  onChange={this.handleChange}
-                />
-              </Grid>
-
               <Grid item xs={12}>
                 <TextField
                   variant="outlined"
@@ -208,8 +175,6 @@ class signup extends Component {
                 loading ||
                 !this.state.email ||
                 !this.state.password ||
-                !this.state.firstName ||
-                !this.state.lastName ||
                 !this.state.username
               }
             >
