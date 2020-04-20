@@ -95,7 +95,6 @@ class login extends Component {
       })
       .catch((error) => {
         console.log('jmk errors', error);
-        // console.log('jmk error.response', error.response);
         this.setState({
           errors: error,
           loading: false,
