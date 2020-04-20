@@ -105,7 +105,6 @@ class home extends Component {
     axios
       .get('https://us-central1-draftmaster-3fe86.cloudfunctions.net/api/user')
       .then((response) => {
-        console.log('jmk get user (response)', response);
         if (this._isMounted) {
           this.setState({
             email: response.data.userCredentials.email,
@@ -116,7 +115,6 @@ class home extends Component {
         }
       })
       .catch((error) => {
-        console.log('jmk error', error);
          this.props.history.push('/login');
 
     

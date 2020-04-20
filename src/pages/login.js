@@ -53,17 +53,6 @@ class login extends Component {
     };
   }
 
-  componentDidUpdate(nextProps) {
-    // console.log('jmk nextProps', nextProps);
-    // if ('errors' in nextProps.UI) {
-    //   if (nextProps.UI.errors) {
-    //     this.setState({
-    //       errors: nextProps.UI.errors,
-    //     });
-    //   }
-    // }
-  }
-
   handleChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value,
@@ -83,24 +72,17 @@ class login extends Component {
         userData
       )
       .then((response) => {
-        console.log('jmk 1. response', response);
         localStorage.setItem('AuthToken', `Bearer ${response.data.token}`);
-        console.log('jmk 2. token', response.data.token);
         this.setState({
           loading: false,
         });
-        console.log('jmk 3. loading?', this.state.loading);
         this.props.history.push('/home');
-        console.log('jmk 4. props after push', this.props);
       })
       .catch((error) => {
-        console.log('jmk errors', error);
         this.setState({
           errors: error,
           loading: false,
         });
-        console.log('jmk 2. errors', this.state.errors);
-        console.log('jmk 3. loading', this.state.loading);
       });
   };
 
