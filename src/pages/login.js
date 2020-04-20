@@ -90,7 +90,7 @@ class login extends Component {
           loading: false,
         });
         console.log('jmk 3. loading?', this.state.loading);
-        this.props.history.push('/');
+        this.props.history.push('/home');
         console.log('jmk 4. props after push', this.props);
       })
       .catch((error) => {
