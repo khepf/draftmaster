@@ -40,13 +40,13 @@ class ExcelReader extends Component {
       const data = XLSX.utils.sheet_to_json(ws);
       /* Update state */
       this.setState({ data: data, cols: make_cols(ws['!ref']) }, () => {
-        const playerData = JSON.stringify(this.state.data, null, 2);
+        // const playerData = JSON.stringify(this.state.data, null, 2);
         const playerNames = this.state.data
         .map((player) => {
           return player.Name;
         })
         .filter((name) => {
-          return name != undefined
+          return name !== undefined;
         })
         
         // console.log(playerData);
