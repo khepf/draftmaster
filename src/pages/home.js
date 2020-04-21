@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import Account from '../components/account';
 import Todo from '../components/todo';
+import Drafts from '../components/drafts';
 import Admin from '../components/admin';
 
 import Drawer from '@material-ui/core/Drawer';
@@ -92,6 +93,8 @@ class home extends Component {
         return <Account />;
       case 'todo':
         return <Todo />;
+      case 'drafts':
+        return <Drafts />;
       case 'admin':
         return <Admin />;
     }
@@ -184,6 +187,16 @@ class home extends Component {
                   <AccountBoxIcon />
                 </ListItemIcon>
                 <ListItemText primary="Account" />
+              </ListItem>
+              <ListItem
+                button
+                key="Drafts"
+                onClick={this.tabChange.bind(this, 'drafts')}
+              >
+                <ListItemIcon>
+                  <AccountBoxIcon />
+                </ListItemIcon>
+                <ListItemText primary="Drafts" />
               </ListItem>
 
               <ListItem

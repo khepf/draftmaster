@@ -105,7 +105,7 @@ class admin extends Component {
           <div className={classes.toolbar} />
           <Card {...rest} className={clsx(classes.root, classes)}>
             <CardContent>
-              <h1>ADMIN PAGE</h1>
+              <h1 style={{textAlign: 'center'}}>ADMIN PAGE</h1>
               <ExcelReader />
               
             </CardContent>
