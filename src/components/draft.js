@@ -12,8 +12,7 @@ import {
   Grid,
   TextField,
 } from '@material-ui/core';
-import { Link as RouterLink } from 'react-router-dom';
-import Link from '@material-ui/core/Link';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 const styles = (theme) => ({
   content: {
@@ -82,7 +81,8 @@ class draft extends Component {
   };
 
   render() {
-    const { classes, ...rest } = this.props;
+    const { classes, to, staticContext, ...rest } = this.props;
+    console.log('this.state.draft', this.state.draft.player);
     if (this.state.uiLoading === true) {
       return (
         <main className={classes.content}>
@@ -101,6 +101,29 @@ class draft extends Component {
           <div>
             <h3>{this.state.draft.leagueName}</h3>
             <h3>{this.state.draft.leagueYear}</h3>
+          </div>
+          <div>
+            <h2>Select Player to Draft</h2>
+            <div>
+              <Card {...rest} className={classes.card}>
+                <CardContent>
+                  <Autocomplete
+                    id="players"
+                    options={this.state.draft.players}
+                    getOptionLabel={(option) => option}
+                    style={{ width: 300 }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Select..."
+                        variant="outlined"
+                      />
+                    )}
+                  />
+                </CardContent>
+                <Divider />
+              </Card>
+            </div>
           </div>
         </main>
       );
