@@ -5,6 +5,7 @@ import Account from '../components/account';
 import Todo from '../components/todo';
 import Drafts from '../components/drafts';
 import Admin from '../components/admin';
+import Draft from '../components/draft';
 
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
@@ -65,6 +66,17 @@ const styles = (theme) => ({
 });
 
 class home extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      profilePicture: '',
+      uiLoading: true,
+      imageLoading: false,
+      tabName: 'account',
+    };
+  }
+
   _isMounted = false;
 
   tabChange(tabName) {
@@ -76,27 +88,20 @@ class home extends Component {
     this.props.history.push('/login');
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      profilePicture: '',
-      uiLoading: true,
-      imageLoading: false,
-      tabName: 'todo',
-    };
-  }
-
   renderTab() {
     switch (this.state.tabName) {
       case 'account':
-        return <Account />;
+        return <Account/>;
       case 'todo':
         return <Todo />;
       case 'drafts':
-        return <Drafts />;
+        return <Drafts/>;
       case 'admin':
         return <Admin />;
+      case 'draft':
+        return <Draft />;
+      default:
+        return <Account />;
     }
   }
 
@@ -118,9 +123,8 @@ class home extends Component {
         }
       })
       .catch((error) => {
-         this.props.history.push('/login');
+        this.props.history.push('/login');
 
-    
         this.setState({ errorMsg: error });
       });
   };
@@ -169,6 +173,16 @@ class home extends Component {
             <List>
               <ListItem
                 button
+                key="Account"
+                onClick={this.tabChange.bind(this, 'account')}
+              >
+                <ListItemIcon>
+                  <AccountBoxIcon />
+                </ListItemIcon>
+                <ListItemText primary="Account" />
+              </ListItem>
+              <ListItem
+                button
                 key="Todo"
                 onClick={this.tabChange.bind(this, 'todo')}
               >
@@ -178,16 +192,6 @@ class home extends Component {
                 <ListItemText primary="Todo" />
               </ListItem>
 
-              <ListItem
-                button
-                key="Account"
-                onClick={this.tabChange.bind(this, 'account')}
-              >
-                <ListItemIcon>
-                  <AccountBoxIcon />
-                </ListItemIcon>
-                <ListItemText primary="Account" />
-              </ListItem>
               <ListItem
                 button
                 key="Drafts"

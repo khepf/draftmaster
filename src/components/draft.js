@@ -29,51 +29,57 @@ const styles = (theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     flexWrap: 'wrap',
-    marginTop: '100px'
+    marginTop: '100px',
   },
   card: {
     minWidth: '150px',
-    margin: '15px'
-  }
-  
+    margin: '15px',
+  },
 });
 
-class drafts extends Component {
+class draft extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       uiLoading: true,
-      drafts: {},
-      errorMsg: null
+      draft: {},
+      errorMsg: null,
     };
-
-
   }
 
   componentDidMount = () => {
-    console.log('jmk drafts component mounted');
+    console.log('jmk draft component mounted', this.props);
     authMiddleWare(this.props.history);
     const authToken = localStorage.getItem('AuthToken');
     axios.defaults.headers.common = { Authorization: `${authToken}` };
     axios
-      .get('https://us-central1-draftmaster-3fe86.cloudfunctions.net/api/drafts')
+      .get(
+        'https://us-central1-draftmaster-3fe86.cloudfunctions.net/api/drafts'
+      )
       .then((response) => {
-        console.log(response.data);
+        console.log('jmk response.data', response.data);
+        console.log('jmk this.props.match.params', this.props.match.params);
+
+        const draftToDisplay = response.data.filter((d) => {
+          console.log('d.draftId', d.draftId);
+          return d.draftId == this.props.match.params.id;
+        });
+        console.log('jmk draftToDisplay', draftToDisplay[0]);
+
         this.setState({
-          drafts: response.data,
+          draft: draftToDisplay[0],
           uiLoading: false,
         });
       })
       .catch((error) => {
-        if (error.response.status === 403) {
+        if (error === 403) {
           this.props.history.push('/login');
         }
         console.log(error);
         this.setState({ errorMsg: 'Error in retrieving the data' });
       });
-
-  }
+  };
 
   render() {
     const { classes, ...rest } = this.props;
@@ -90,22 +96,11 @@ class drafts extends Component {
       return (
         <main className={classes.content}>
           <div className={(classes.toolbar, classes.cards)}>
-            {this.state.drafts.map((draft, index) => (
-              <Link
-                underline="none"
-                key={index}
-                component={RouterLink}
-                to={`/drafts/${draft.draftId}`}
-              >
-                <Card {...rest} key={index} className={classes.card}>
-                  <CardContent>
-                    <h4>{draft.leagueName}</h4>
-                    <h4>{draft.leagueYear}</h4>
-                  </CardContent>
-                  <Divider />
-                </Card>
-              </Link>
-            ))}
+            <h1>Draft Page</h1>
+          </div>
+          <div>
+            <h3>{this.state.draft.leagueName}</h3>
+            <h3>{this.state.draft.leagueYear}</h3>
           </div>
         </main>
       );
@@ -113,4 +108,4 @@ class drafts extends Component {
   }
 }
 
-export default withStyles(styles)(drafts);
+export default withStyles(styles)(draft);
