@@ -36,7 +36,7 @@ const styles = (theme) => ({
     fontSize: '0.8rem',
     marginTop: 10,
   },
-  progess: {
+  progress: {
     position: 'absolute',
   },
 });
@@ -139,7 +139,7 @@ class login extends Component {
             >
               Sign In
               {loading && (
-                <CircularProgress size={30} className={classes.progess} />
+                <CircularProgress size={30} className={classes.progress} />
               )}
             </Button>
             <Grid container>

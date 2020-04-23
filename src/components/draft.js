@@ -89,11 +89,10 @@ class draft extends Component {
             <h1>Draft Page</h1>
           </div>
           <div>
-            <h3>{this.state.draft.leagueName}</h3>
-            <h3>{this.state.draft.leagueYear}</h3>
-          </div>
-          <div>
-            <h2>Select Player to Draft</h2>
+            <h2>
+              Select Player from {this.state.draft.leagueName}{' '}
+              {this.state.draft.leagueYear} Draft
+            </h2>
             <div>
               <Card {...rest} className={classes.card}>
                 <CardContent>
