@@ -29,18 +29,8 @@ const styles = (theme) => ({
   details: {
     display: 'flex',
   },
-  avatar: {
-    height: 110,
-    width: 100,
-    flexShrink: 0,
-    flexGrow: 0,
-  },
   locationText: {
     paddingLeft: '15px',
-  },
-  buttonProperty: {
-    position: 'absolute',
-    top: '50%',
   },
   uiProgess: {
     position: 'fixed',
@@ -50,9 +40,6 @@ const styles = (theme) => ({
     left: '50%',
     top: '35%',
   },
-  progess: {
-    position: 'absolute',
-  },
   uploadButton: {
     marginLeft: '8px',
     margin: theme.spacing(1),
@@ -61,9 +48,6 @@ const styles = (theme) => ({
     color: 'red',
     fontSize: '0.8rem',
     marginTop: 10,
-  },
-  submitButton: {
-    marginTop: '10px',
   },
 });
 
@@ -151,8 +135,6 @@ class account extends Component {
         });
       });
   };
-
-
 
   render() {
     const { classes, ...rest } = this.props;

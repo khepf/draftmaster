@@ -3,6 +3,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { authMiddleWare } from '../util/auth';
 import axios from 'axios';
+import Teams from '../components/teams';
 import {
   Card,
   CardActions,
@@ -124,6 +125,9 @@ class draft extends Component {
                 <Divider />
               </Card>
             </div>
+          </div>
+          <div>
+            <Teams />
           </div>
         </main>
       );
