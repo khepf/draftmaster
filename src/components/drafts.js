@@ -5,12 +5,8 @@ import { authMiddleWare } from '../util/auth';
 import axios from 'axios';
 import {
   Card,
-  CardActions,
   CardContent,
-  Divider,
-  Button,
-  Grid,
-  TextField,
+  Divider
 } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
 import Link from '@material-ui/core/Link';
@@ -26,13 +22,20 @@ const styles = (theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     flexWrap: 'wrap',
-    marginTop: '100px'
+    marginTop: '100px',
   },
   card: {
     minWidth: '150px',
-    margin: '15px'
-  }
-  
+    margin: '15px',
+  },
+  uiProgess: {
+    position: 'fixed',
+    zIndex: '1000',
+    height: '31px',
+    width: '31px',
+    left: '50%',
+    top: '35%',
+  },
 });
 
 class drafts extends Component {

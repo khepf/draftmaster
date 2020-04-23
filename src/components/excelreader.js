@@ -23,6 +23,7 @@ class ExcelReader extends Component {
       yearChosen: false,
       leagueName: '',
       leagueYear: null,
+      open: false
     };
     this.handleFile = this.handleFile.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -54,6 +55,16 @@ class ExcelReader extends Component {
     }
   }
 
+  handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    this.setState({
+      open: false,
+    });
+  };
+
   handleFile() {
     /* Boilerplate to set up FileReader */
     const reader = new FileReader();
@@ -73,7 +84,7 @@ class ExcelReader extends Component {
       const data = XLSX.utils.sheet_to_json(ws);
       /* Update state */
       this.setState({ data: data, cols: make_cols(ws['!ref']) }, () => {
-        const [open, setOpen] = React.useState(false);
+        // const [open, setOpen] = React.useState(false);
         const draft = {};
         const playerNames = this.state.data
           .map((player) => {
@@ -101,6 +112,10 @@ class ExcelReader extends Component {
         axios(options)
         .then(() => {
           console.log('Draft Uploaded Successfully');
+          this.setState({
+            open: true
+          });
+
         }).catch((error) => {
           console.log('error', error);
         });
@@ -174,14 +189,14 @@ class ExcelReader extends Component {
             vertical: 'bottom',
             horizontal: 'left',
           }}
-          open={this.open}
+          open={this.state.open}
           autoHideDuration={6000}
           onClose={this.handleClose}
-          message="Note archived"
+          message="Draft Saved Successfully"
           action={
             <React.Fragment>
               <Button color="secondary" size="small" onClick={this.handleClose}>
-                UNDO
+                Close
               </Button>
               <IconButton
                 size="small"

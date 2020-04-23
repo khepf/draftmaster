@@ -6,11 +6,8 @@ import axios from 'axios';
 import Teams from '../components/teams';
 import {
   Card,
-  CardActions,
   CardContent,
   Divider,
-  Button,
-  Grid,
   TextField,
 } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -60,7 +57,7 @@ class draft extends Component {
 
         const draftToDisplay = response.data.filter((d) => {
           console.log('d.draftId', d.draftId);
-          return d.draftId == this.props.match.params.id;
+          return d.draftId === this.props.match.params.id;
         });
         console.log('jmk draftToDisplay', draftToDisplay[0]);
 
