@@ -21,9 +21,6 @@ const styles = (theme) => ({
     padding: theme.spacing(3),
   },
   toolbar: theme.mixins.toolbar,
-  details: {
-    display: 'flex',
-  },
   cards: {
     display: 'flex',
     justifyContent: 'center',
