@@ -43,7 +43,6 @@ class draft extends Component {
   }
 
   componentDidMount = () => {
-    console.log('jmk draft component mounted', this.props);
     authMiddleWare(this.props.history);
     const authToken = localStorage.getItem('AuthToken');
     axios.defaults.headers.common = { Authorization: `${authToken}` };
@@ -52,14 +51,10 @@ class draft extends Component {
         'https://us-central1-draftmaster-3fe86.cloudfunctions.net/api/drafts'
       )
       .then((response) => {
-        console.log('jmk response.data', response.data);
-        console.log('jmk this.props.match.params', this.props.match.params);
-
         const draftToDisplay = response.data.filter((d) => {
           console.log('d.draftId', d.draftId);
           return d.draftId === this.props.match.params.id;
         });
-        console.log('jmk draftToDisplay', draftToDisplay[0]);
 
         this.setState({
           draft: draftToDisplay[0],

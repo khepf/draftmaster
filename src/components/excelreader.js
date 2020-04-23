@@ -41,7 +41,6 @@ class ExcelReader extends Component {
 
   handleNameChange(e) {
     const name = e.target.value;
-    console.log('jmk name e', e.target.value);
     if (name) {
       this.setState({ leagueName: name, nameChosen: true });
     }
@@ -49,7 +48,6 @@ class ExcelReader extends Component {
 
   handleYearChange(e) {
     const year = e.target.value
-    console.log('jmk year e', e.target.value);
     if (year) {
       this.setState({ leagueYear: year, yearChosen: true });
     }
@@ -180,7 +178,7 @@ class ExcelReader extends Component {
               !this.state.yearChosen
             }
           >
-            Import Draft
+            Save Draft
           </Button>
         </div>
 

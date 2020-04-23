@@ -24,7 +24,6 @@ const Teams = () => {
         'https://us-central1-draftmaster-3fe86.cloudfunctions.net/api/teams'
       )
       .then((response) => {
-        console.log('jmk teams response', response);
         setTeams(response.data);
       })
       .catch((error) => {
