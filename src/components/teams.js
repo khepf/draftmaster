@@ -116,13 +116,16 @@ const Teams = (props) => {
           {teams.map((team) => (
             <Draggable key={team.teamId}>
               <ListItem>
+                <ListItemIcon className="drag-handle">
+                  <DragHandleIcon />
+                </ListItemIcon>
                 <ListItemText primary={team.name} />
                 <ListItemText primary={team.owner} />
                 <ListItemText primary={team.league} />
                 <ListItemSecondaryAction>
-                  <ListItemIcon className="drag-handle">
-                    <DragHandleIcon />
-                  </ListItemIcon>
+                  <Button variant="contained" color="primary">
+                    X
+                  </Button>
                 </ListItemSecondaryAction>
               </ListItem>
             </Draggable>

@@ -1,18 +1,12 @@
-import React, { Component } from 'react';
-
-import ExcelReader from '../components/excelreader';
+import React, { useState, useEffect } from 'react';
+import clsx from 'clsx';
+import axios from 'axios';
 
 import withStyles from '@material-ui/core/styles/withStyles';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import {
-  Card,
-  CardContent,
-  Divider,
-} from '@material-ui/core';
+import { Card, CardContent, Divider } from '@material-ui/core';
 
-import clsx from 'clsx';
-
-import axios from 'axios';
+import ExcelReader from '../components/excelreader';
 import { authMiddleWare } from '../util/auth';
 
 const styles = (theme) => ({
@@ -32,32 +26,23 @@ const styles = (theme) => ({
   }
 });
 
-class admin extends Component {
-  constructor(props) {
-    super(props);
+const Admin = (props) => {
 
-    this.state = {
-      uiLoading: true,
- 
-    };
-  }
+  const [uiLoading, setUiLoading] = useState(true);
+  const { classes, ...rest } = props;
 
-  componentDidMount = () => {
-    authMiddleWare(this.props.history);
+  useEffect(() => {
+    authMiddleWare(props.history);
     const authToken = localStorage.getItem('AuthToken');
     axios.defaults.headers.common = { Authorization: `${authToken}` };
-    this.setState({
-      uiLoading: false,
-    });
-  };
-
-  render() {
-    const { classes, ...rest } = this.props;
-    if (this.state.uiLoading === true) {
+    setUiLoading(false);
+  }, [uiLoading]);
+ 
+    if (uiLoading === true) {
       return (
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          {this.state.uiLoading && (
+          {uiLoading && (
             <CircularProgress size={150} className={classes.uiProgess} />
           )}
         </main>
@@ -76,7 +61,6 @@ class admin extends Component {
         </main>
       );
     }
-  }
 }
 
-export default withStyles(styles)(admin);
+export default withStyles(styles)(Admin);
