@@ -42,9 +42,9 @@ const Landing = (props) => {
           <MediaCard></MediaCard>
         </section>
 
-        <section>
+        {/* <section>
           <Counter2 max={15} step={5}/>
-        </section>
+        </section> */}
       </Container>
     );
 }
