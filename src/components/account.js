@@ -1,5 +1,8 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
+import clsx from 'clsx';
+import axios from 'axios';
 
+import { makeStyles } from '@material-ui/core/styles';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -14,12 +17,9 @@ import {
   TextField,
 } from '@material-ui/core';
 
-import clsx from 'clsx';
-
-import axios from 'axios';
 import { authMiddleWare } from '../util/auth';
 
-const styles = (theme) => ({
+const styles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
@@ -49,58 +49,54 @@ const styles = (theme) => ({
     fontSize: '0.8rem',
     marginTop: 10,
   },
-});
+}));
 
-class account extends Component {
-  constructor(props) {
-    super(props);
+const Account = (props) => {
+  const classes = styles();
 
-    this.state = {
-      email: '',
-      username: '',
-      profilePicture: '',
-      uiLoading: true,
-      buttonLoading: false,
-      imageError: '',
-    };
-  }
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
+  const [profilePicture, setProfilePicture] = useState('');
+  const [uiLoading, setUiLoading] = useState(true);
+  const [buttonLoading, setButtonLoading] = useState(false);
+  const [imageError, setImageError] = useState('');
+  const [errMsg, setErrMsg] = useState('');
 
-  componentDidMount = () => {
-    authMiddleWare(this.props.history);
-    const authToken = localStorage.getItem('AuthToken');
-    axios.defaults.headers.common = { Authorization: `${authToken}` };
-    axios
-      .get('https://us-central1-draftmaster-3fe86.cloudfunctions.net/api/user')
-      .then((response) => {
-        console.log(response.data);
-        this.setState({
-          email: response.data.userCredentials.email,
-          username: response.data.userCredentials.username,
-          uiLoading: false,
-        });
-      })
-      .catch((error) => {
-        if (error.response.status === 403) {
-          this.props.history.push('/login');
-        }
-        console.log(error);
-        this.setState({ errorMsg: 'Error in retrieving the data' });
-      });
-  };
+  useEffect(() => {
+    authMiddleWare(props.history);
+        const authToken = localStorage.getItem('AuthToken');
+        axios.defaults.headers.common = { Authorization: `${authToken}` };
+        axios
+          .get('https://us-central1-draftmaster-3fe86.cloudfunctions.net/api/user')
+          .then((response) => {
+            console.log(response.data);
+            setEmail(response.data.userCredentials.email);
+            setUsername(response.data.userCredentials.username);
+            setUiLoading(false);
+          })
+          .catch((error) => {
+            if (error === 403) {
+              props.history.push('/login');
+            }
+            console.log(error);
+            setErrMsg(error);
+          });
+  }, [email, username, uiLoading]);
 
-  handleChange = (event) => {
+
+  const handleChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value,
     });
   };
 
-  handleImageChange = (event) => {
+  const handleImageChange = (event) => {
     this.setState({
       image: event.target.files[0],
     });
   };
 
-  profilePictureHandler = (event) => {
+  const profilePictureHandler = (event) => {
     event.preventDefault();
     this.setState({
       uiLoading: true,
@@ -136,13 +132,13 @@ class account extends Component {
       });
   };
 
-  render() {
-    const { classes, ...rest } = this.props;
-    if (this.state.uiLoading === true) {
+ 
+    const { ...rest } = props;
+    if (uiLoading === true) {
       return (
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          {this.state.uiLoading && (
+          {uiLoading && (
             <CircularProgress size={150} className={classes.uiProgess} />
           )}
         </main>
@@ -168,13 +164,13 @@ class account extends Component {
                     size="small"
                     startIcon={<CloudUploadIcon />}
                     className={classes.uploadButton}
-                    onClick={this.profilePictureHandler}
+                    onClick={profilePictureHandler}
                   >
                     Upload Photo
                   </Button>
-                  <input type="file" onChange={this.handleImageChange} />
+                  <input type="file" onChange={handleImageChange} />
 
-                  {this.state.imageError ? (
+                  {imageError ? (
                     <div className={classes.customError}>
                       {' '}
                       Wrong Image Format || Supported Format are PNG and JPG
@@ -204,7 +200,7 @@ class account extends Component {
                       name="email"
                       variant="outlined"
                       disabled={true}
-                      value={this.state.email} 
+                      value={email} 
                     />
                   </Grid>
 
@@ -216,7 +212,7 @@ class account extends Component {
                       name="userHandle"
                       disabled={true}
                       variant="outlined"
-                      value={this.state.username}
+                      value={username}
                     />
                   </Grid>
                 </Grid>
@@ -227,7 +223,6 @@ class account extends Component {
         </main>
       );
     }
-  }
 }
 
-export default withStyles(styles)(account);
+export default withStyles(styles)(Account);

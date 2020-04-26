@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
 import { Container, Draggable } from 'react-smooth-dnd';
 import arrayMove from 'array-move';
 import List from '@material-ui/core/List';
@@ -14,7 +13,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { authMiddleWare } from '../util/auth';
 
-const useStyles = makeStyles((theme) => ({
+const styles = makeStyles((theme) => ({
   form: {
     '& > *': {
       margin: theme.spacing(1),
@@ -29,17 +28,14 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-
-
 const Teams = (props) => {
-  const classes = useStyles();
+  const classes = styles();
   const [teams, setTeams] = useState([]);
   const [newTeam, setNewTeam] = useState({});
   const [errorMsg, setErrorMsg] = useState([]);
   const [isAddTeam, setIsAddTeam] = useState([]);
 
   const isAddTeamToggle = (event) => {
-    console.log('jmk isAddTeam', isAddTeam);
     event.preventDefault();
     isAddTeam ? setIsAddTeam(false) : setIsAddTeam(true);
     
@@ -54,8 +50,6 @@ const Teams = (props) => {
     setNewTeam({...newTeam,
       [event.target.name]: event.target.value
     });
-    console.log('jmk newTeam state', event.target.name, event.target.value);
-    console.log('jmk newTeam', newTeam);
   };
   
 
@@ -67,7 +61,6 @@ const Teams = (props) => {
       owner: newTeam.owner,
       league: newTeam.league,
     };
-    console.log('jmk newTeamData', newTeamData)
     let options = {};
       options = {
         url:

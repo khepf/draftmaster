@@ -4,7 +4,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 
 import MediaCard from '../components/mediacard';
-import Counter from '../components/counter';
+// import Counter from '../components/counter';
 import Counter2 from '../components/counter2';
 
 const styles = (theme) => ({
