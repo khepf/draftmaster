@@ -98,9 +98,7 @@ const Account = (props) => {
 
   const profilePictureHandler = (event) => {
     event.preventDefault();
-    this.setState({
-      uiLoading: true,
-    });
+    setUiLoading(false);
     authMiddleWare(this.props.history);
     const authToken = localStorage.getItem('AuthToken');
     let form_data = new FormData();
@@ -125,10 +123,8 @@ const Account = (props) => {
           this.props.history.push('/login');
         }
         console.log(error);
-        this.setState({
-          uiLoading: false,
-          imageError: 'Error in posting the data',
-        });
+        setUiLoading(false);
+        setImageError('Error in posting the data');
       });
   };
 
