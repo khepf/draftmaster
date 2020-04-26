@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
@@ -32,10 +32,9 @@ const styles = (theme) => ({
   }
 });
 
-class landing extends Component {
+const Landing = (props) => {
   
-  render() {
-    const { classes } = this.props;
+    const { classes } = props;
     return (
       <Container className={classes.root}>
         <CssBaseline />
@@ -48,7 +47,6 @@ class landing extends Component {
         </section>
       </Container>
     );
-  }
 }
 
-export default withStyles(styles)(landing);
+export default withStyles(styles)(Landing);

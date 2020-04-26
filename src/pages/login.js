@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -41,30 +41,27 @@ const styles = (theme) => ({
   },
 });
 
-class login extends Component {
-  constructor(props) {
-    super(props);
+const Login = (props) => {
 
-    this.state = {
-      email: '',
-      password: '',
-      errors: [],
-      loading: false,
-    };
-  }
-
-  handleChange = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [uiLoading, setUiLoading] = useState(true);
+  const [errors, setErrors] = useState([]);
+  
+const handleEmailChange = (event) => {
+    setEmail(event.target.value);
   };
 
-  handleSubmit = (event) => {
+const handlePasswordChange = (event) => {
+  setPassword(event.target.value);
+};
+
+const handleSubmit = (event) => {
     event.preventDefault();
-    this.setState({ loading: true });
+    setUiLoading(true);
     const userData = {
-      email: this.state.email,
-      password: this.state.password,
+      email: email,
+      password: password,
     };
     axios
       .post(
@@ -73,22 +70,17 @@ class login extends Component {
       )
       .then((response) => {
         localStorage.setItem('AuthToken', `Bearer ${response.data.token}`);
-        this.setState({
-          loading: false,
-        });
-        this.props.history.push('/home');
+        setUiLoading(false);
+        props.history.push('/home');
       })
       .catch((error) => {
-        this.setState({
-          errors: error,
-          loading: false,
-        });
+        setUiLoading(false);
+        setErrors(error);
       });
   };
 
-  render() {
-    const { classes } = this.props;
-    const { errors, loading } = this.state;
+ 
+    const { classes } = props;
     return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -112,7 +104,7 @@ class login extends Component {
               autoFocus
               helperText={errors.email}
               error={errors.email ? true : false}
-              onChange={this.handleChange}
+              onChange={handleEmailChange}
             />
             <TextField
               variant="outlined"
@@ -126,7 +118,7 @@ class login extends Component {
               autoComplete="current-password"
               helperText={errors.password}
               error={errors.password ? true : false}
-              onChange={this.handleChange}
+              onChange={handlePasswordChange}
             />
             <Button
               type="submit"
@@ -134,13 +126,10 @@ class login extends Component {
               variant="contained"
               color="primary"
               className={classes.submit}
-              onClick={this.handleSubmit}
-              disabled={loading || !this.state.email || !this.state.password}
+              onClick={handleSubmit}
+              disabled={!email || !password}
             >
               Sign In
-              {loading && (
-                <CircularProgress size={30} className={classes.progress} />
-              )}
             </Button>
             <Grid container>
               <Grid item>
@@ -158,7 +147,6 @@ class login extends Component {
         </div>
       </Container>
     );
-  }
 }
 
-export default withStyles(styles)(login);
+export default withStyles(styles)(Login);

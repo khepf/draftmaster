@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { authMiddleWare } from '../util/auth';
@@ -38,49 +38,38 @@ const styles = (theme) => ({
   },
 });
 
-class drafts extends Component {
-  constructor(props) {
-    super(props);
+const Drafts = (props) => {
 
-    this.state = {
-      uiLoading: true,
-      drafts: {},
-      errorMsg: null
-    };
+  const [uiLoading, setUiLoading] = useState(true);
+  const [drafts, setDrafts] = useState([]);
+  const [errorMsg, setErrorMsg] = useState(null);
 
-
-  }
-
-  componentDidMount = () => {
-    authMiddleWare(this.props.history);
+  useEffect(() => {
+    authMiddleWare(props.history);
     const authToken = localStorage.getItem('AuthToken');
     axios.defaults.headers.common = { Authorization: `${authToken}` };
+
     axios
       .get('https://us-central1-draftmaster-3fe86.cloudfunctions.net/api/drafts')
       .then((response) => {
-        console.log(response.data);
-        this.setState({
-          drafts: response.data,
-          uiLoading: false,
-        });
+        setUiLoading(false);
+        setDrafts(response.data);
       })
       .catch((error) => {
-        if (error.response.status === 403) {
-          this.props.history.push('/login');
+        if (error === 403) {
+          props.history.push('/login');
         }
         console.log(error);
-        this.setState({ errorMsg: 'Error in retrieving the data' });
+        setErrorMsg(error);
       });
+  }, [])
 
-  }
-
-  render() {
-    const { classes, ...rest } = this.props;
-    if (this.state.uiLoading === true) {
+    const { classes, ...rest } = props;
+    if (uiLoading === true) {
       return (
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          {this.state.uiLoading && (
+          {uiLoading && (
             <CircularProgress size={150} className={classes.uiProgess} />
           )}
         </main>
@@ -89,7 +78,7 @@ class drafts extends Component {
       return (
         <main className={classes.content}>
           <div className={(classes.toolbar, classes.cards)}>
-            {this.state.drafts.map((draft, index) => (
+            {drafts.map((draft, index) => (
               <Link
                 underline="none"
                 key={index}
@@ -109,7 +98,6 @@ class drafts extends Component {
         </main>
       );
     }
-  }
 }
 
-export default withStyles(styles)(drafts);
+export default withStyles(styles)(Drafts);

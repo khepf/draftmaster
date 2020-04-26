@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 import Account from '../components/account';
@@ -65,31 +65,28 @@ const styles = (theme) => ({
   toolbar: theme.mixins.toolbar,
 });
 
-class home extends Component {
-  constructor(props) {
-    super(props);
+const Home = (props) => {
+  const [profilePicture, setProfilePicture] = useState('');
+  const [uiLoading, setUiLoading] = useState(true);
+  const [imageLoading, setImageLoading] = useState(false);
+  const [tabName, setTabName] = useState('account');
+  const [errorMsg, setErrMsg] = useState('');
+   const [email, setEmail] = useState('');
+   const [username, setUsername] = useState('');
+  
 
-    this.state = {
-      profilePicture: '',
-      uiLoading: true,
-      imageLoading: false,
-      tabName: 'account',
-    };
+  const tabChange = (tabName) => {
+    setTabName(tabName);
   }
 
-  _isMounted = false;
-
-  tabChange(tabName) {
-    this.setState({ tabName });
-  }
-
-  logoutHandler = (event) => {
+  const logoutHandler = (event) => {
     localStorage.removeItem('AuthToken');
-    this.props.history.push('/login');
+    props.history.push('/login');
   };
 
-  renderTab() {
-    switch (this.state.tabName) {
+  const renderTab = () => {
+    console.log('jmk tabName', tabName);
+    switch (tabName) {
       case 'account':
         return <Account/>;
       case 'todo':
@@ -105,40 +102,29 @@ class home extends Component {
     }
   }
 
-  componentDidMount = () => {
-    this._isMounted = true;
-    authMiddleWare(this.props.history);
+  useEffect(() => {
+    authMiddleWare(props.history);
     const authToken = localStorage.getItem('AuthToken');
     axios.defaults.headers.common = { Authorization: `${authToken}` };
     axios
       .get('https://us-central1-draftmaster-3fe86.cloudfunctions.net/api/user')
       .then((response) => {
-        if (this._isMounted) {
-          this.setState({
-            email: response.data.userCredentials.email,
-            username: response.data.userCredentials.username,
-            uiLoading: false,
-            profilePicture: response.data.userCredentials.imageUrl,
-          });
-        }
+        setEmail(response.data.userCredentials.email);
+        setUsername(response.data.userCredentials.username);
+        setUiLoading(false);
+        setProfilePicture(response.data.userCredentials.imageUrl);
       })
       .catch((error) => {
-        this.props.history.push('/login');
-
-        this.setState({ errorMsg: error });
+        props.history.push('/login');
+        setErrMsg(error);
       });
-  };
+  })
 
-  componentWillUnmount() {
-    this._isMounted = false;
-  }
-
-  render() {
-    const { classes } = this.props;
-    if (this.state.uiLoading === true) {
+    const { classes } = props;
+    if (uiLoading === true) {
       return (
         <div className={classes.root}>
-          {this.state.uiLoading && (
+          {uiLoading && (
             <CircularProgress size={150} className={classes.uiProgess} />
           )}
         </div>
@@ -165,7 +151,7 @@ class home extends Component {
             <Divider />
             <center>
               <Avatar
-                src={this.state.profilePicture}
+                src={profilePicture}
                 className={classes.avatar}
               />
             </center>
@@ -174,7 +160,7 @@ class home extends Component {
               <ListItem
                 button
                 key="Account"
-                onClick={this.tabChange.bind(this, 'account')}
+                onClick={tabChange.bind(this, 'account')}
               >
                 <ListItemIcon>
                   <AccountBoxIcon />
@@ -184,7 +170,7 @@ class home extends Component {
               <ListItem
                 button
                 key="Todo"
-                onClick={this.tabChange.bind(this, 'todo')}
+                onClick={tabChange.bind(this, 'todo')}
               >
                 <ListItemIcon>
                   <NotesIcon />
@@ -195,7 +181,7 @@ class home extends Component {
               <ListItem
                 button
                 key="Drafts"
-                onClick={this.tabChange.bind(this, 'drafts')}
+                onClick={tabChange.bind(this,'drafts')}
               >
                 <ListItemIcon>
                   <AccountBoxIcon />
@@ -206,7 +192,7 @@ class home extends Component {
               <ListItem
                 button
                 key="Admin"
-                onClick={this.tabChange.bind(this, 'admin')}
+                onClick={tabChange.bind(this, 'admin')}
               >
                 <ListItemIcon>
                   <FingerprintIcon />
@@ -214,7 +200,7 @@ class home extends Component {
                 <ListItemText primary="Admin" />
               </ListItem>
 
-              <ListItem button key="Logout" onClick={this.logoutHandler}>
+              <ListItem button key="Logout" onClick={logoutHandler}>
                 <ListItemIcon>
                   <ExitToAppIcon />
                 </ListItemIcon>
@@ -222,11 +208,10 @@ class home extends Component {
               </ListItem>
             </List>
           </Drawer>
-          <div>{this.renderTab()}</div>
+          <div>{renderTab()}</div>
         </div>
       );
     }
-  }
 }
 
-export default withStyles(styles)(home);
+export default withStyles(styles)(Home);

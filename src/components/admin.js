@@ -36,7 +36,7 @@ const Admin = (props) => {
     const authToken = localStorage.getItem('AuthToken');
     axios.defaults.headers.common = { Authorization: `${authToken}` };
     setUiLoading(false);
-  }, [uiLoading]);
+  }, [uiLoading, props.history]);
  
     if (uiLoading === true) {
       return (

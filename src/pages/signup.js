@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -36,34 +36,40 @@ const styles = (theme) => ({
   },
 });
 
-class signup extends Component {
-  constructor(props) {
-    super(props);
+const Signup = (props) => {
 
-    this.state = {
-      username: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-      errors: [],
-      loading: false,
-    };
-  }
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState([]);
 
-  handleChange = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
+
+  const handleUsernameChange = (event) => {
+    setUsername(event.target.value);
   };
 
-  handleSubmit = (event) => {
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
+
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+  };
+
+  const handleConfirmPasswordChange = (event) => {
+    setConfirmPassword(event.target.value);
+  };
+
+  const handleSubmit = (event) => {
     event.preventDefault();
-    this.setState({ loading: true });
+    setLoading(true);
     const newUserData = {
-      username: this.state.username,
-      email: this.state.email,
-      password: this.state.password,
-      confirmPassword: this.state.confirmPassword,
+      username: username,
+      email: email,
+      password: password,
+      confirmPassword: confirmPassword,
     };
     axios
       .post(
@@ -72,22 +78,17 @@ class signup extends Component {
       )
       .then((response) => {
         localStorage.setItem('AuthToken', `Bearer ${response.data.token}`);
-        this.setState({
-          loading: false,
-        });
-        this.props.history.push('/');
+        setLoading(false);
+        props.history.push('/home');
       })
       .catch((error) => {
-        this.setState({
-          errors: error.response.data,
-          loading: false,
-        });
+        setLoading(false);
+        setErrors(error);
       });
   };
 
-  render() {
-    const { classes } = this.props;
-    const { errors, loading } = this.state;
+
+    const { classes } = props;
     return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -111,7 +112,7 @@ class signup extends Component {
                   autoComplete="username"
                   helperText={errors.username}
                   error={errors.username ? true : false}
-                  onChange={this.handleChange}
+                  onChange={handleUsernameChange}
                 />
               </Grid>
 
@@ -126,7 +127,7 @@ class signup extends Component {
                   autoComplete="email"
                   helperText={errors.email}
                   error={errors.email ? true : false}
-                  onChange={this.handleChange}
+                  onChange={handleEmailChange}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -141,7 +142,7 @@ class signup extends Component {
                   autoComplete="current-password"
                   helperText={errors.password}
                   error={errors.password ? true : false}
-                  onChange={this.handleChange}
+                  onChange={handlePasswordChange}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -154,7 +155,7 @@ class signup extends Component {
                   type="password"
                   id="confirmPassword"
                   autoComplete="current-password"
-                  onChange={this.handleChange}
+                  onChange={handleConfirmPasswordChange}
                 />
               </Grid>
             </Grid>
@@ -164,12 +165,12 @@ class signup extends Component {
               variant="contained"
               color="primary"
               className={classes.submit}
-              onClick={this.handleSubmit}
+              onClick={handleSubmit}
               disabled={
                 loading ||
-                !this.state.email ||
-                !this.state.password ||
-                !this.state.username
+                !email ||
+                !password ||
+                !username
               }
             >
               Sign Up
@@ -188,7 +189,6 @@ class signup extends Component {
         </div>
       </Container>
     );
-  }
 }
 
-export default withStyles(styles)(signup);
+export default withStyles(styles)(Signup);
