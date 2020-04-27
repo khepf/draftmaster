@@ -21,7 +21,6 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import FingerprintIcon from '@material-ui/icons/Fingerprint';
 import NotesIcon from '@material-ui/icons/Notes';
-import Avatar from '@material-ui/core/Avatar';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -66,13 +65,11 @@ const styles = (theme) => ({
 });
 
 const Home = (props) => {
-  const [profilePicture, setProfilePicture] = useState('');
   const [uiLoading, setUiLoading] = useState(true);
-  const [imageLoading, setImageLoading] = useState(false);
   const [tabName, setTabName] = useState('account');
   const [errorMsg, setErrMsg] = useState('');
-   const [email, setEmail] = useState('');
-   const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   
 
   const tabChange = (tabName) => {
@@ -112,7 +109,6 @@ const Home = (props) => {
         setEmail(response.data.userCredentials.email);
         setUsername(response.data.userCredentials.username);
         setUiLoading(false);
-        setProfilePicture(response.data.userCredentials.imageUrl);
       })
       .catch((error) => {
         props.history.push('/login');
@@ -148,13 +144,8 @@ const Home = (props) => {
             }}
           >
             <div className={classes.toolbar} />
-            <Divider />
-            <center>
-              <Avatar
-                src={profilePicture}
-                className={classes.avatar}
-              />
-            </center>
+        
+          
             <Divider />
             <List>
               <ListItem

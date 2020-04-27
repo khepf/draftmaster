@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { authMiddleWare } from '../util/auth';
@@ -31,19 +31,14 @@ const styles = (theme) => ({
   },
 });
 
-class draft extends Component {
-  constructor(props) {
-    super(props);
+const Draft = (props) => {
 
-    this.state = {
-      uiLoading: true,
-      draft: {},
-      errorMsg: null,
-    };
-  }
+  const [uiLoading, setUiLoading] = useState(true);
+  const [draft, setDraft] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
 
-  componentDidMount = () => {
-    authMiddleWare(this.props.history);
+  useEffect(() => {
+    authMiddleWare(props.history);
     const authToken = localStorage.getItem('AuthToken');
     axios.defaults.headers.common = { Authorization: `${authToken}` };
     axios
@@ -53,31 +48,26 @@ class draft extends Component {
       .then((response) => {
         const draftToDisplay = response.data.filter((d) => {
           console.log('d.draftId', d.draftId);
-          return d.draftId === this.props.match.params.id;
+          return d.draftId === props.match.params.id;
         });
-
-        this.setState({
-          draft: draftToDisplay[0],
-          uiLoading: false,
-        });
+        setDraft(draftToDisplay[0]);
+        setUiLoading(false);
       })
       .catch((error) => {
         if (error === 403) {
-          this.props.history.push('/login');
+          props.history.push('/login');
         }
         console.log(error);
-        this.setState({ errorMsg: 'Error in retrieving the data' });
+        setErrorMsg(error);
       });
-  };
+  })
 
-  render() {
-    const { classes, to, staticContext, ...rest } = this.props;
-    console.log('this.state.draft', this.state.draft.player);
-    if (this.state.uiLoading === true) {
+    const { classes, to, staticContext, ...rest } = props;
+    if (uiLoading === true) {
       return (
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          {this.state.uiLoading && (
+          {uiLoading && (
             <CircularProgress size={150} className={classes.uiProgess} />
           )}
         </main>
@@ -90,15 +80,15 @@ class draft extends Component {
           </div>
           <div>
             <h2>
-              Select Player from {this.state.draft.leagueName}{' '}
-              {this.state.draft.leagueYear} Draft
+              Select Player from {draft.leagueName}{' '}
+              {draft.leagueYear} Draft
             </h2>
             <div>
               <Card {...rest} className={classes.card}>
                 <CardContent>
                   <Autocomplete
                     id="players"
-                    options={this.state.draft.players}
+                    options={draft.players}
                     getOptionLabel={(option) => option}
                     style={{ width: 300 }}
                     renderInput={(params) => (
@@ -120,7 +110,6 @@ class draft extends Component {
         </main>
       );
     }
-  }
 }
 
-export default withStyles(styles)(draft);
+export default withStyles(styles)(Draft);
