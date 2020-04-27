@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+import { HomeContext } from '../context/home-context';
 
 import Account from '../components/account';
 import Todo from '../components/todo';
@@ -65,15 +66,36 @@ const styles = (theme) => ({
 });
 
 const Home = (props) => {
-  const [uiLoading, setUiLoading] = useState(true);
-  const [tabName, setTabName] = useState('account');
-  const [errorMsg, setErrMsg] = useState('');
+
+  const [state, dispatch] = useContext(HomeContext);
+  // const [uiLoading, setUiLoading] = useState(true);
+  // const [tabName, setTabName] = useState('account');
+  // const [errorMsg, setErrMsg] = useState('');
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   
+  
+  
 
   const tabChange = (tabName) => {
-    setTabName(tabName);
+    dispatch({
+      type: 'TAB_NAME_CHANGE',
+      payload: tabName
+    })
+  }
+
+  const isLoading = (b) => {
+    dispatch({
+      type: 'IS_LOADING',
+      payload: b
+    })
+  }
+
+  const errorMessage = (e) => {
+    dispatch({
+      type: 'ERR_MSG',
+      payload: e
+    })
   }
 
   const logoutHandler = (event) => {
@@ -82,8 +104,7 @@ const Home = (props) => {
   };
 
   const renderTab = () => {
-    console.log('jmk tabName', tabName);
-    switch (tabName) {
+    switch (state.tabName) {
       case 'account':
         return <Account/>;
       case 'todo':
@@ -106,101 +127,107 @@ const Home = (props) => {
     axios
       .get('https://us-central1-draftmaster-3fe86.cloudfunctions.net/api/user')
       .then((response) => {
+        console.log('jmk hi');
         setEmail(response.data.userCredentials.email);
         setUsername(response.data.userCredentials.username);
-        setUiLoading(false);
+        isLoading(false);
+      }).then(() => {
+        
       })
       .catch((error) => {
         props.history.push('/login');
-        setErrMsg(error);
+        errorMessage(error);
       });
-  })
+  },[])
 
     const { classes } = props;
-    if (uiLoading === true) {
+    if (isLoading === true) {
       return (
-        <div className={classes.root}>
-          {uiLoading && (
-            <CircularProgress size={150} className={classes.uiProgess} />
-          )}
-        </div>
+        
+          <div className={classes.root}>
+            {isLoading && (
+              <CircularProgress size={150} className={classes.uiProgess} />
+            )}
+          </div>
+       
       );
     } else {
       return (
-        <div className={classes.root}>
-          <CssBaseline />
-          <AppBar position="fixed" className={classes.appBar}>
-            <Toolbar>
-              <Typography variant="h6" noWrap>
-                Draft Manager
-              </Typography>
-            </Toolbar>
-          </AppBar>
-          <Drawer
-            className={classes.drawer}
-            variant="permanent"
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-          >
-            <div className={classes.toolbar} />
-        
-          
-            <Divider />
-            <List>
-              <ListItem
-                button
-                key="Account"
-                onClick={tabChange.bind(this, 'account')}
-              >
-                <ListItemIcon>
-                  <AccountBoxIcon />
-                </ListItemIcon>
-                <ListItemText primary="Account" />
-              </ListItem>
-              <ListItem
-                button
-                key="Todo"
-                onClick={tabChange.bind(this, 'todo')}
-              >
-                <ListItemIcon>
-                  <NotesIcon />
-                </ListItemIcon>
-                <ListItemText primary="Todo" />
-              </ListItem>
+      
+          <div className={classes.root}>
+            <CssBaseline />
+            <AppBar position="fixed" className={classes.appBar}>
+              <Toolbar>
+                <Typography variant="h6" noWrap>
+                  Draft Manager
+                </Typography>
+              </Toolbar>
+            </AppBar>
+            <Drawer
+              className={classes.drawer}
+              variant="permanent"
+              classes={{
+                paper: classes.drawerPaper,
+              }}
+            >
+              <div className={classes.toolbar} />
 
-              <ListItem
-                button
-                key="Drafts"
-                onClick={tabChange.bind(this,'drafts')}
-              >
-                <ListItemIcon>
-                  <AccountBoxIcon />
-                </ListItemIcon>
-                <ListItemText primary="Drafts" />
-              </ListItem>
+              <Divider />
+              <List>
+                <ListItem
+                  button
+                  key="Account"
+                  onClick={tabChange.bind(this, 'account')}
+                >
+                  <ListItemIcon>
+                    <AccountBoxIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Account" />
+                </ListItem>
+                <ListItem
+                  button
+                  key="Todo"
+                  onClick={tabChange.bind(this, 'todo')}
+                >
+                  <ListItemIcon>
+                    <NotesIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Todo" />
+                </ListItem>
 
-              <ListItem
-                button
-                key="Admin"
-                onClick={tabChange.bind(this, 'admin')}
-              >
-                <ListItemIcon>
-                  <FingerprintIcon />
-                </ListItemIcon>
-                <ListItemText primary="Admin" />
-              </ListItem>
+                <ListItem
+                  button
+                  key="Drafts"
+                  onClick={tabChange.bind(this, 'drafts')}
+                >
+                  <ListItemIcon>
+                    <AccountBoxIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Drafts" />
+                </ListItem>
 
-              <ListItem button key="Logout" onClick={logoutHandler}>
-                <ListItemIcon>
-                  <ExitToAppIcon />
-                </ListItemIcon>
-                <ListItemText primary="Logout" />
-              </ListItem>
-            </List>
-          </Drawer>
-          <div>{renderTab()}</div>
-        </div>
+                <ListItem
+                  button
+                  key="Admin"
+                  onClick={tabChange.bind(this, 'admin')}
+                >
+                  <ListItemIcon>
+                    <FingerprintIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Admin" />
+                </ListItem>
+
+                <ListItem button key="Logout" onClick={logoutHandler}>
+                  <ListItemIcon>
+                    <ExitToAppIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Logout" />
+                </ListItem>
+              </List>
+            </Drawer>
+            <div>{renderTab()}</div>
+          </div>
+   
       );
     }
 }

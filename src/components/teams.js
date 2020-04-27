@@ -33,7 +33,7 @@ const Teams = (props) => {
   const [teams, setTeams] = useState([]);
   const [newTeam, setNewTeam] = useState({});
   const [errorMsg, setErrorMsg] = useState([]);
-  const [isAddTeam, setIsAddTeam] = useState([]);
+  const [isAddTeam, setIsAddTeam] = useState(false);
 
   const isAddTeamToggle = (event) => {
     event.preventDefault();
@@ -46,10 +46,18 @@ const Teams = (props) => {
     setTeams((teams) => arrayMove(teams, removedIndex, addedIndex));
   };
 
-  const handleChange = (event) => {
+  const handleNameChange = (event) => {
     setNewTeam({...newTeam,
-      [event.target.name]: event.target.value
+      name: event.target.value
     });
+  };
+
+  const handleOwnerChange = (event) => {
+    setNewTeam({ ...newTeam, owner: event.target.value });
+  };
+
+  const handleLeagueChange = (event) => {
+    setNewTeam({ ...newTeam, league: event.target.value });
   };
   
 
@@ -79,6 +87,23 @@ const Teams = (props) => {
         console.log(error);
       });
   };
+
+  const deleteTeamHandler = (data) => {
+    authMiddleWare(props.history);
+    const authToken = localStorage.getItem('AuthToken');
+    axios.defaults.headers.common = { Authorization: `${authToken}` };
+    let teamId = data.team.teamId;
+    axios
+      .delete(
+        `https://us-central1-draftmaster-3fe86.cloudfunctions.net/api/team/${teamId}`
+      )
+      .then(() => {
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   useEffect(() => {
     axios
@@ -116,7 +141,11 @@ const Teams = (props) => {
                 <ListItemText primary={team.owner} />
                 <ListItemText primary={team.league} />
                 <ListItemSecondaryAction>
-                  <Button variant="contained" color="primary">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => deleteTeamHandler({ team })}
+                  >
                     X
                   </Button>
                 </ListItemSecondaryAction>
@@ -145,7 +174,7 @@ const Teams = (props) => {
               color="secondary"
               required
               value={newTeam.name}
-              onChange={handleChange}
+              onChange={handleNameChange}
             />
             <TextField
               id="owner"
@@ -155,7 +184,7 @@ const Teams = (props) => {
               color="secondary"
               required
               value={newTeam.owner}
-              onChange={handleChange}
+              onChange={handleOwnerChange}
             />
             <TextField
               id="league"
@@ -165,7 +194,7 @@ const Teams = (props) => {
               color="secondary"
               required
               value={newTeam.league}
-              onChange={handleChange}
+              onChange={handleLeagueChange}
             />
             <Button variant="contained" color="primary" onClick={handleSubmit}>
               Save
