@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+import { HomeContextProvider } from '../context/home-context';
 import { HomeContext } from '../context/home-context';
 
 import Account from '../components/account';
@@ -43,17 +44,6 @@ const styles = (theme) => ({
   drawerPaper: {
     width: drawerWidth,
   },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
-  },
-  avatar: {
-    height: 110,
-    width: 100,
-    flexShrink: 0,
-    flexGrow: 0,
-    marginTop: 20,
-  },
   uiProgess: {
     position: 'fixed',
     zIndex: '1000',
@@ -67,35 +57,11 @@ const styles = (theme) => ({
 
 const Home = (props) => {
 
-  const [state, dispatch] = useContext(HomeContext);
-  // const [uiLoading, setUiLoading] = useState(true);
-  // const [tabName, setTabName] = useState('account');
-  // const [errorMsg, setErrMsg] = useState('');
-  const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
-  
-  
-  
+  const [loading, setLoading] = useState(false);
+  const [tabName, setTabName] = useState('account');
 
-  const tabChange = (tabName) => {
-    dispatch({
-      type: 'TAB_NAME_CHANGE',
-      payload: tabName
-    })
-  }
-
-  const isLoading = (b) => {
-    dispatch({
-      type: 'IS_LOADING',
-      payload: b
-    })
-  }
-
-  const errorMessage = (e) => {
-    dispatch({
-      type: 'ERR_MSG',
-      payload: e
-    })
+  const tabChange = (tab) => {
+    setTabName(tab);
   }
 
   const logoutHandler = (event) => {
@@ -104,9 +70,9 @@ const Home = (props) => {
   };
 
   const renderTab = () => {
-    switch (state.tabName) {
+    switch (tabName) {
       case 'account':
-        return <Account/>;
+        return <Account />;
       case 'todo':
         return <Todo />;
       case 'drafts':
@@ -120,36 +86,22 @@ const Home = (props) => {
     }
   }
 
-  useEffect(() => {
-    authMiddleWare(props.history);
-    const authToken = localStorage.getItem('AuthToken');
-    axios.defaults.headers.common = { Authorization: `${authToken}` };
-    axios
-      .get('https://us-central1-draftmaster-3fe86.cloudfunctions.net/api/user')
-      .then((response) => {
-        console.log('jmk hi');
-        setEmail(response.data.userCredentials.email);
-        setUsername(response.data.userCredentials.username);
-        isLoading(false);
-      }).then(() => {
-        
-      })
-      .catch((error) => {
-        props.history.push('/login');
-        errorMessage(error);
-      });
-  },[])
-
     const { classes } = props;
-    if (isLoading === true) {
+
+    useEffect(() => {
+      authMiddleWare(props.history);
+      const authToken = localStorage.getItem('AuthToken');
+       axios.defaults.headers.common = { Authorization: `${authToken}` };
+
+    }, [loading]);
+
+    if (loading === true) {
       return (
-        
           <div className={classes.root}>
-            {isLoading && (
+            {loading && (
               <CircularProgress size={150} className={classes.uiProgess} />
             )}
           </div>
-       
       );
     } else {
       return (

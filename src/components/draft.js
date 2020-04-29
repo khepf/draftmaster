@@ -38,20 +38,17 @@ const Draft = (props) => {
   const [errorMsg, setErrorMsg] = useState(null);
 
   useEffect(() => {
+    console.log('jmk draft props', props);
     authMiddleWare(props.history);
     const authToken = localStorage.getItem('AuthToken');
     axios.defaults.headers.common = { Authorization: `${authToken}` };
     axios
       .get(
-        'https://us-central1-draftmaster-3fe86.cloudfunctions.net/api/drafts'
+        `https://us-central1-draftmaster-3fe86.cloudfunctions.net/api/draft${props.match.params.id}`
       )
       .then((response) => {
-        const draftToDisplay = response.data.filter((d) => {
-          console.log('d.draftId', d.draftId);
-          return d.draftId === props.match.params.id;
-        });
-        setDraft(draftToDisplay[0]);
         setUiLoading(false);
+        setDraft(response.data);
       })
       .catch((error) => {
         if (error === 403) {
@@ -59,7 +56,7 @@ const Draft = (props) => {
         }
         console.log(error);
         setErrorMsg(error);
-      });
+      }, []);
   })
 
     const { classes, to, staticContext, ...rest } = props;

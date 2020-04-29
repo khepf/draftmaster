@@ -7,8 +7,8 @@ import signup from './pages/signup';
 import home from './pages/home';
 import landing from './pages/landing';
 import draft from './components/draft';
+import testpage from './pages/testpage';
 
-import { HomeContextProvider } from './context/home-context';
 
 const theme = createMuiTheme({
   palette: {
@@ -23,7 +23,7 @@ const theme = createMuiTheme({
 
 function App() {
   return (
-    <HomeContextProvider>
+
       <MuiThemeProvider theme={theme}>
         <Router>
           <div>
@@ -33,11 +33,11 @@ function App() {
               <Route exact path="/signup" component={signup} />
               <Route exact path="/home" component={home} />
               <Route path="/drafts/:id" component={draft} />
+              <Route exact path="/test" component={testpage} />
             </Switch>
           </div>
         </Router>
       </MuiThemeProvider>
-    </HomeContextProvider>
   );
 }
 

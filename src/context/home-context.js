@@ -1,6 +1,6 @@
 import React, { useReducer, createContext } from 'react';
 
-export const HomeContext = createContext([]);
+export const HomeContext = createContext();
 
 const initialState = {
   username: '',
@@ -14,17 +14,30 @@ const reducer = (state, action) => {
   switch (action.type) {
     case 'TAB_NAME_CHANGE':
       return {
-        ...state,
-        tabName: action.payload
-      }
+        tabName: action.payload,
+      };
     case 'IS_LOADING':
+      console.log('jmk IS_LOADING action.payload', action.payload);
+      console.log('jmk IS_LOADING state', state);
       return {
-        loading: action.payload
-      }
+        loading: action.payload,
+      };
     case 'ERR_MSG':
       return {
-        error: action.payload
-      }
+        error: action.payload,
+      };
+    case 'EMAIL':
+      console.log('jmk EMAIL action.payload', action.payload);
+      console.log('jmk EMAIL state', state);
+      return {
+        email: action.payload,
+      };
+    case 'USERNAME':
+      return {
+        username: action.payload,
+      };
+    default:
+      throw new Error();
   }
 }
 

@@ -27,11 +27,18 @@ const styles = makeStyles({
     alignItems: 'center',
   },
   buttons: {
-    minWidth: '120px'
-  }
+    minWidth: '120px',
+    background: 'linear-gradient(45deg, #cd2626 30%, #FF8E53 90%)',
+    borderRadius: 3,
+    border: 0,
+    color: 'white',
+    height: 48,
+    padding: '0 30px',
+    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+  },
 });
 
-export default function MediaCard() {
+const LandingCard = () => {
   const classes = styles();
 
   return (
@@ -71,3 +78,5 @@ export default function MediaCard() {
     </Card>
   );
 }
+
+export default LandingCard;
