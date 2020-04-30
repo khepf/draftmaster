@@ -4,7 +4,9 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { authMiddleWare } from '../util/auth';
 import axios from 'axios';
 import {
+  Button,
   Card,
+  CardActions,
   CardContent,
   Divider
 } from '@material-ui/core';
@@ -12,6 +14,16 @@ import { Link as RouterLink } from 'react-router-dom';
 import Link from '@material-ui/core/Link';
 
 const styles = (theme) => ({
+  buttons: {
+    minWidth: '120px',
+    background: 'linear-gradient(45deg, #cd2626 30%, #FF8E53 90%)',
+    borderRadius: 3,
+    border: 0,
+    color: 'white',
+    height: 48,
+    padding: '0 30px',
+    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+  },
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
@@ -62,7 +74,24 @@ const Drafts = (props) => {
         console.log(error);
         setErrorMsg(error);
       });
-  }, [])
+  }, []);
+
+  const deleteDraftHandler = (data) => {
+    authMiddleWare(props.history);
+    const authToken = localStorage.getItem('AuthToken');
+    axios.defaults.headers.common = { Authorization: `${authToken}` };
+    let draftId = data.draft.draftId;
+    axios
+      .delete(
+        `https://us-central1-draftmaster-3fe86.cloudfunctions.net/api/draft/${draftId}`
+      )
+      .then(() => {
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
     const { classes, ...rest } = props;
     if (uiLoading === true) {
@@ -87,10 +116,16 @@ const Drafts = (props) => {
               >
                 <Card {...rest} key={index} className={classes.card}>
                   <CardContent>
-                    <h4>{draft.leagueName}</h4>
-                    <h4>{draft.leagueYear}</h4>
+                    <h4>League Name: {draft.leagueName}</h4>
+                    <h4>Draft Year: {draft.leagueYear}</h4>
                   </CardContent>
                   <Divider />
+                  <CardActions>
+                    <Button className={classes.buttons} onClick={() => deleteDraftHandler({ draft })}>
+                      Delete Draft
+                  </Button>
+                    
+                  </CardActions>
                 </Card>
               </Link>
             ))}
