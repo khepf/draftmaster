@@ -25,13 +25,24 @@ const styles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-around',
     alignItems: 'center'
+  },
+  buttons: {
+    minWidth: '120px',
+    background: 'linear-gradient(45deg, #cd2626 30%, #FF8E53 90%)',
+    borderRadius: 3,
+    border: 0,
+    color: 'white',
+    height: 48,
+    padding: '0 30px',
+    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+    margin: '20px'
   }
 }));
 
 const Teams = (props) => {
   const classes = styles();
   const [teams, setTeams] = useState([]);
-  const [newTeam, setNewTeam] = useState({});
+  const [newTeam, setNewTeam] = useState({ name: '', owner: '', league: ''});
   const [errorMsg, setErrorMsg] = useState([]);
   const [isAddTeam, setIsAddTeam] = useState(false);
 
@@ -155,6 +166,17 @@ const Teams = (props) => {
         </Container>
       </List>
       <Button
+        className={classes.buttons} 
+        type="submit"
+        fullWidth
+        variant="contained"
+        color="primary"
+        onClick={isAddTeamToggle}
+      >
+        Save Draft Order
+      </Button>
+      <Button
+        className={classes.buttons} 
         type="submit"
         fullWidth
         variant="contained"

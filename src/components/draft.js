@@ -17,13 +17,11 @@ const styles = (theme) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
   },
-  toolbar: theme.mixins.toolbar,
   cards: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     flexWrap: 'wrap',
-    marginTop: '100px',
   },
   card: {
     minWidth: '150px',
@@ -34,7 +32,7 @@ const styles = (theme) => ({
 const Draft = (props) => {
 
   const [uiLoading, setUiLoading] = useState(true);
-  const [draft, setDraft] = useState(null);
+  const [draft, setDraft] = useState({});
   const [errorMsg, setErrorMsg] = useState(null);
 
   useEffect(() => {
@@ -42,22 +40,17 @@ const Draft = (props) => {
     authMiddleWare(props.history);
     const authToken = localStorage.getItem('AuthToken');
     axios.defaults.headers.common = { Authorization: `${authToken}` };
-    axios
-      .get(
-        `https://us-central1-draftmaster-3fe86.cloudfunctions.net/api/draft${props.match.params.id}`
-      )
-      .then((response) => {
+    const fetchData = async () => {
+      const result = await axios
+        .get(
+          `https://us-central1-draftmaster-3fe86.cloudfunctions.net/api/draft/${props.match.params.id}`
+        );
+        setDraft(result.data);
         setUiLoading(false);
-        setDraft(response.data);
-      })
-      .catch((error) => {
-        if (error === 403) {
-          props.history.push('/login');
-        }
-        console.log(error);
-        setErrorMsg(error);
-      }, []);
-  })
+    };
+    fetchData();
+  },[]);
+
 
     const { classes, to, staticContext, ...rest } = props;
     if (uiLoading === true) {
@@ -72,7 +65,7 @@ const Draft = (props) => {
     } else {
       return (
         <main className={classes.content}>
-          <div className={(classes.toolbar, classes.cards)}>
+          <div className={classes.cards}>
             <h1>Draft Page</h1>
           </div>
           <div>
