@@ -14,6 +14,17 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import axios from 'axios';
 
 const styles = (theme) => ({
+  buttons: {
+    minWidth: '120px',
+    background: 'linear-gradient(45deg, #cd2626 30%, #FF8E53 90%)',
+    borderRadius: 3,
+    border: 0,
+    color: 'white !important',
+    height: 48,
+    padding: '0 30px',
+    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+    
+  },
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
@@ -27,9 +38,6 @@ const styles = (theme) => ({
   form: {
     width: '100%',
     marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
   },
   customError: {
     color: 'red',
@@ -89,7 +97,7 @@ const handleSubmit = (event) => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Login
+            Log In
           </Typography>
           <form className={classes.form} noValidate>
             <TextField
@@ -122,14 +130,15 @@ const handleSubmit = (event) => {
             />
             <Button
               type="submit"
-              fullWidth
               variant="contained"
+              fullWidth
               color="primary"
-              className={classes.submit}
+              // className={classes.buttons}
               onClick={handleSubmit}
               disabled={!email || !password}
+              style={{marginTop: '15px', marginBottom: '18px' }}
             >
-              Sign In
+              Go
             </Button>
             <Grid container>
               <Grid item>

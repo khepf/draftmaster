@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import withStyles from '@material-ui/core/styles/withStyles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { authMiddleWare } from '../util/auth';
-import axios from 'axios';
+
 import Teams from '../components/teams';
 import {
   Card,
@@ -52,7 +53,7 @@ const Draft = (props) => {
   },[]);
 
 
-    const { classes, to, staticContext, ...rest } = props;
+    const { classes, to, ...rest } = props;
     if (uiLoading === true) {
       return (
         <main className={classes.content}>

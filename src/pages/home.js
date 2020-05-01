@@ -1,15 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { HomeContextProvider } from '../context/home-context';
-import { HomeContext } from '../context/home-context';
+import { Link } from 'react-router-dom';
 
-import Account from '../components/account';
-import Todo from '../components/todo';
-import Drafts from '../components/drafts';
-import Admin from '../components/admin';
-import Draft from '../components/draft';
-
-import Drawer from '@material-ui/core/Drawer';
+import Button from '@material-ui/core/Button';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -31,12 +24,30 @@ import { authMiddleWare } from '../util/auth';
 const drawerWidth = 240;
 
 const styles = (theme) => ({
+  buttons: {
+    minWidth: '120px',
+    background: 'linear-gradient(45deg, #cd2626 30%, #FF8E53 90%)',
+    borderRadius: 3,
+    border: 0,
+    color: 'white !important',
+    height: 48,
+    padding: '0 30px',
+    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+    margin: '15px'
+
+  },
+  main: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   root: {
     display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
   },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-  },
+  
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
@@ -58,33 +69,13 @@ const styles = (theme) => ({
 const Home = (props) => {
 
   const [loading, setLoading] = useState(false);
-  const [tabName, setTabName] = useState('account');
 
-  const tabChange = (tab) => {
-    setTabName(tab);
-  }
+
 
   const logoutHandler = (event) => {
     localStorage.removeItem('AuthToken');
     props.history.push('/login');
   };
-
-  const renderTab = () => {
-    switch (tabName) {
-      case 'account':
-        return <Account />;
-      case 'todo':
-        return <Todo />;
-      case 'drafts':
-        return <Drafts/>;
-      case 'admin':
-        return <Admin />;
-      case 'draft':
-        return <Draft />;
-      default:
-        return <Account />;
-    }
-  }
 
     const { classes } = props;
 
@@ -107,77 +98,23 @@ const Home = (props) => {
       return (
       
           <div className={classes.root}>
-            <CssBaseline />
-            <AppBar position="fixed" className={classes.appBar}>
+          <CssBaseline />
+            
+            {/* <AppBar>
               <Toolbar>
                 <Typography variant="h6" noWrap>
                   Draft Manager
                 </Typography>
               </Toolbar>
-            </AppBar>
-            <Drawer
-              className={classes.drawer}
-              variant="permanent"
-              classes={{
-                paper: classes.drawerPaper,
-              }}
-            >
-              <div className={classes.toolbar} />
-
-              <Divider />
-              <List>
-                <ListItem
-                  button
-                  key="Account"
-                  onClick={tabChange.bind(this, 'account')}
-                >
-                  <ListItemIcon>
-                    <AccountBoxIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Account" />
-                </ListItem>
-                <ListItem
-                  button
-                  key="Todo"
-                  onClick={tabChange.bind(this, 'todo')}
-                >
-                  <ListItemIcon>
-                    <NotesIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Todo" />
-                </ListItem>
-
-                <ListItem
-                  button
-                  key="Drafts"
-                  onClick={tabChange.bind(this, 'drafts')}
-                >
-                  <ListItemIcon>
-                    <AccountBoxIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Drafts" />
-                </ListItem>
-
-                <ListItem
-                  button
-                  key="Admin"
-                  onClick={tabChange.bind(this, 'admin')}
-                >
-                  <ListItemIcon>
-                    <FingerprintIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Admin" />
-                </ListItem>
-
-                <ListItem button key="Logout" onClick={logoutHandler}>
-                  <ListItemIcon>
-                    <ExitToAppIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Logout" />
-                </ListItem>
-              </List>
-            </Drawer>
-            <div>{renderTab()}</div>
+            </AppBar> */}
+          
+            <main className={classes.main}>
+              
+              <Button component={Link} to={'/account'} className={classes.buttons}>Account</Button>
+            <Button component={Link} to={'/drafts'} className={classes.buttons}>Drafts</Button>
+            <Button component={Link} to={'/admin'} className={classes.buttons}>Admin</Button>
+            <Button onClick={logoutHandler} className={classes.buttons}>Log Out</Button>
+            </main>
           </div>
    
       );

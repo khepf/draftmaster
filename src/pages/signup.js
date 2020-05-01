@@ -97,7 +97,7 @@ const Signup = (props) => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            Sign Up
           </Typography>
           <form className={classes.form} noValidate>
             <Grid container spacing={2}>
@@ -181,7 +181,7 @@ const Signup = (props) => {
             <Grid container justify="flex-end">
               <Grid item>
                 <Link href="login" variant="body2">
-                  Already have an account? Sign in
+                  Already have an account? Log In
                 </Link>
               </Grid>
             </Grid>

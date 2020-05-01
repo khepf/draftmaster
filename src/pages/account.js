@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { HomeContext } from '../context/home-context';
 import clsx from 'clsx';
 import axios from 'axios';
 
