@@ -6,6 +6,8 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Card, CardContent, Divider } from '@material-ui/core';
 
+import TheNavBar from '../components/thenavbar';
+
 import ExcelReader from '../components/excelreader';
 import { authMiddleWare } from '../util/auth';
 
@@ -32,6 +34,7 @@ const Admin = (props) => {
   const { classes, ...rest } = props;
 
   useEffect(() => {
+    console.log('admin props', props);
     authMiddleWare(props.history);
     const authToken = localStorage.getItem('AuthToken');
     axios.defaults.headers.common = { Authorization: `${authToken}` };
@@ -40,6 +43,8 @@ const Admin = (props) => {
  
     if (uiLoading === true) {
       return (
+        
+    
         <main className={classes.content}>
           <div className={classes.toolbar} />
           {uiLoading && (
@@ -49,9 +54,12 @@ const Admin = (props) => {
       );
     } else {
       return (
+
+        <>
+          <TheNavBar />
         <main className={classes.content}>
-          <div className={classes.toolbar} />
-          <Card {...rest} className={clsx(classes.root, classes)}>
+         
+          <Card className={clsx(classes.root, classes)}>
             <CardContent>
               <h1 style={{textAlign: 'center'}}>ADMIN PAGE</h1>
               <ExcelReader />
@@ -59,6 +67,7 @@ const Admin = (props) => {
             <Divider />
           </Card>
         </main>
+        </>
       );
     }
 }

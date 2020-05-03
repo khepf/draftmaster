@@ -2,6 +2,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import clsx from 'clsx';
 import axios from 'axios';
 
+import TheNavBar from '../components/thenavbar';
+
 import withStyles from '@material-ui/core/styles/withStyles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {
@@ -74,34 +76,36 @@ const Account = (props) => {
       });
   }, []);
 
-                             const { classes } = props;
+    const { classes } = props;
 
-                             if (loading === true) {
-                               return (
-                                 <main className={classes.content}>
-                                   <div className={classes.toolbar} />
-                                   {loading && (
-                                     <CircularProgress
-                                       size={150}
-                                       className={classes.uiProgess}
-                                     />
-                                   )}
-                                 </main>
-                               );
-                             } else {
-                               return (
-                                 <main className={classes.content}>
-                                   <div className={classes.toolbar} />
+    if (loading === true) {
+      return (
+        <main className={classes.content}>
+          <div className={classes.toolbar} />
+          {loading && (
+            <CircularProgress
+              size={150}
+              className={classes.uiProgess}
+            />
+          )}
+        </main>
+      );
+    } else {
+      return (
+        <>
+        <TheNavBar />
+        <main className={classes.content}>
+        
 
-                                   <Card
-                                     className={clsx(classes.root, classes)}
-                                   >
-                                     <form autoComplete="off" noValidate>
-                                       <Divider />
-                                       <CardContent>
-                                         <Grid container spacing={3}>
-                                           <Grid item md={6} xs={12}>
-                                             <TextField
+          <Card
+            className={clsx(classes.root, classes)}
+          >
+            <form autoComplete="off" noValidate>
+              <Divider />
+              <CardContent>
+                <Grid container spacing={3}>
+                  <Grid item md={6} xs={12}>
+                    <TextField
                       fullWidth
                       label="Email"
                       margin="dense"
@@ -109,12 +113,12 @@ const Account = (props) => {
                       variant="outlined"
                       disabled={true}
                       value={email} 
-                    />
-                                         
-                                           </Grid>
+                      />
+                
+                  </Grid>
 
-                                           <Grid item md={6} xs={12}>
-                                             <TextField
+                  <Grid item md={6} xs={12}>
+                    <TextField
                       fullWidth
                       label="User Name"
                       margin="dense"
@@ -122,17 +126,18 @@ const Account = (props) => {
                       disabled={true}
                       variant="outlined"
                       value={username}
-                    />
-                                          
-                                           </Grid>
-                                         </Grid>
-                                       </CardContent>
-                                       <CardActions />
-                                     </form>
-                                   </Card>
-                                 </main>
-                               );
-                             }
-                           }
+                      />
+                
+                  </Grid>
+                </Grid>
+              </CardContent>
+              <CardActions />
+            </form>
+          </Card>
+        </main>
+        </>
+      );
+    }
+  }
 
 export default withStyles(styles)(Account);

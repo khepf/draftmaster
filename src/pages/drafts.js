@@ -13,6 +13,8 @@ import {
 import { Link as RouterLink } from 'react-router-dom';
 import Link from '@material-ui/core/Link';
 
+import TheNavBar from '../components/thenavbar';
+
 const styles = (theme) => ({
   buttons: {
     minWidth: '120px',
@@ -105,8 +107,12 @@ const Drafts = (props) => {
       );
     } else {
       return (
+        <>
+        <TheNavBar />
         <main className={classes.content}>
-          <div className={(classes.toolbar, classes.cards)}>
+          
+          
+          <div className={ classes.cards}>
             {drafts.map((draft, index) => (
               <Link
                 underline="none"
@@ -130,7 +136,9 @@ const Drafts = (props) => {
               </Link>
             ))}
           </div>
+         
         </main>
+        </>
       );
     }
 }

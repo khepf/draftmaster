@@ -34,9 +34,7 @@ const App = () => {
         
         
         <Router>
-        <header>
-          <TheNavBar />
-        </header>
+
           <div>
             <Switch>
               
@@ -47,7 +45,7 @@ const App = () => {
               
               <Route exact path="/account" component={account} />
 
-              <Route exact path="/drafts" component={drafts} />
+              <Route exact path="/drafts" component={drafts} props={true}/>
               <Route path="/drafts/:id" component={draft} />
 
               <Route exact path="/admin" component={admin} />
