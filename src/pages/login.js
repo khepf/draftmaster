@@ -77,8 +77,8 @@ const handleSubmit = (event) => {
         userData
       )
       .then((response) => {
+        setUiLoading(true);
         localStorage.setItem('AuthToken', `Bearer ${response.data.token}`);
-        setUiLoading(false);
         props.history.push('/home');
       })
       .catch((error) => {

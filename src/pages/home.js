@@ -67,7 +67,6 @@ const styles = (theme) => ({
 });
 
 const Home = (props) => {
-
   const [loading, setLoading] = useState(false);
 
 
@@ -83,7 +82,6 @@ const Home = (props) => {
       authMiddleWare(props.history);
       const authToken = localStorage.getItem('AuthToken');
        axios.defaults.headers.common = { Authorization: `${authToken}` };
-
     }, [loading]);
 
     if (loading === true) {
@@ -100,13 +98,6 @@ const Home = (props) => {
           <div className={classes.root}>
           <CssBaseline />
             
-            {/* <AppBar>
-              <Toolbar>
-                <Typography variant="h6" noWrap>
-                  Draft Manager
-                </Typography>
-              </Toolbar>
-            </AppBar> */}
           
             <main className={classes.main}>
               

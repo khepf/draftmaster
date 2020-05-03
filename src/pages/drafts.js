@@ -53,7 +53,6 @@ const styles = (theme) => ({
 });
 
 const Drafts = (props) => {
-
   const [uiLoading, setUiLoading] = useState(true);
   const [drafts, setDrafts] = useState([]);
   const [errorMsg, setErrorMsg] = useState(null);
@@ -95,7 +94,7 @@ const Drafts = (props) => {
       });
   }
 
-    const { classes, ...rest } = props;
+    const { classes, staticContext, ...rest } = props;
     if (uiLoading === true) {
       return (
         <main className={classes.content}>
