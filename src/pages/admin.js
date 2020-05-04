@@ -31,7 +31,7 @@ const styles = (theme) => ({
 const Admin = (props) => {
 
   const [uiLoading, setUiLoading] = useState(true);
-  const { classes, ...rest } = props;
+  const { classes } = props;
 
   useEffect(() => {
     console.log('admin props', props);

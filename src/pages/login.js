@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -53,7 +53,7 @@ const Login = (props) => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [uiLoading, setUiLoading] = useState(true);
+  const [uiLoading, setUiLoading] = useState(false);
   const [errors, setErrors] = useState([]);
   
 const handleEmailChange = (event) => {
@@ -89,6 +89,16 @@ const handleSubmit = (event) => {
 
  
     const { classes } = props;
+
+  if (uiLoading === true) {
+    return (
+      <div className={classes.root}>
+        {uiLoading && (
+          <CircularProgress size={150} className={classes.uiProgess} />
+        )}
+      </div>
+    );
+  } else {
     return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -156,6 +166,7 @@ const handleSubmit = (event) => {
         </div>
       </Container>
     );
+  }
 }
 
 export default withStyles(styles)(Login);

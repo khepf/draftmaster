@@ -87,7 +87,8 @@ const Drafts = (props) => {
         `https://us-central1-draftmaster-3fe86.cloudfunctions.net/api/draft/${draftId}`
       )
       .then(() => {
-        window.location.reload();
+        console.log('jmk hi from delete draft handler', props.history);
+        props.history.push('/drafts');
       })
       .catch((err) => {
         console.log(err);

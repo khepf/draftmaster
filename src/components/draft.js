@@ -53,7 +53,7 @@ const Draft = (props) => {
   },[]);
 
 
-    const { classes, to, ...rest } = props;
+    const { classes, staticContext, ...rest } = props;
     if (uiLoading === true) {
       return (
         <main className={classes.content}>
