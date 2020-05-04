@@ -57,10 +57,30 @@ const Drafts = (props) => {
   const [drafts, setDrafts] = useState([]);
   const [errorMsg, setErrorMsg] = useState(null);
 
-  useEffect(() => {
+  const deleteDraftHandler = (data) => {
     authMiddleWare(props.history);
     const authToken = localStorage.getItem('AuthToken');
     axios.defaults.headers.common = { Authorization: `${authToken}` };
+    let draftId = data.draft.draftId;
+    console.log('jmk draftId', draftId)
+    axios
+      .delete(
+        `https://us-central1-draftmaster-3fe86.cloudfunctions.net/api/draft/${draftId}`
+      )
+      .then(() => {
+        console.log('jmk hi from delete draft handler', props.history);
+        props.history.push('/drafts');
+      })
+      .catch((err) => {
+        console.log(err);
+        props.history.push('/drafts');
+      });
+  }
+
+  useEffect(() => {
+    // authMiddleWare(props.history);
+    // const authToken = localStorage.getItem('AuthToken');
+    // axios.defaults.headers.common = { Authorization: `${authToken}` };
 
     axios
       .get('https://us-central1-draftmaster-3fe86.cloudfunctions.net/api/drafts')
@@ -77,23 +97,7 @@ const Drafts = (props) => {
       });
   }, []);
 
-  const deleteDraftHandler = (data) => {
-    authMiddleWare(props.history);
-    const authToken = localStorage.getItem('AuthToken');
-    axios.defaults.headers.common = { Authorization: `${authToken}` };
-    let draftId = data.draft.draftId;
-    axios
-      .delete(
-        `https://us-central1-draftmaster-3fe86.cloudfunctions.net/api/draft/${draftId}`
-      )
-      .then(() => {
-        console.log('jmk hi from delete draft handler', props.history);
-        props.history.push('/drafts');
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
+
 
     const { classes, staticContext, ...rest } = props;
     if (uiLoading === true) {
