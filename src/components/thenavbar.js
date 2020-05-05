@@ -14,6 +14,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+
 const drawerWidth = 240;
 const useStyles = makeStyles(theme => ({
   root: {
@@ -78,11 +79,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const TheNavBar = (props) => {
-  // const navCategories = ['Account', 'Drafts', 'Admin', 'LogOut']
   const navCategories = [
     { id: 1, displayName: 'Account', navLink: '/account' },
     { id: 2, displayName: 'Drafts', navLink: '/drafts' },
-    { id: 3, displayName: 'Admin', navLink: '/admin' },
   ]
   const classes = useStyles();
   const theme = useTheme();
@@ -121,6 +120,7 @@ const TheNavBar = (props) => {
                   <ListItemText primary={item.displayName} />
                 </ListItem>
               ))}
+              <ListItem  component={Link} to={'/admin'}><ListItemText style={{ color: 'white' }}>Admin</ListItemText></ListItem>
               <ListItem onClick={logoutHandler} component={Link} to={'/'}><ListItemText style={{color: 'white'}}>LogOut</ListItemText></ListItem>
             </List>
           </Hidden>

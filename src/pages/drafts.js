@@ -90,9 +90,11 @@ const Drafts = (props) => {
       })
       .catch((error) => {
         if (error === 403) {
+          console.log('error in 403 drafts useEffect', error);
           props.history.push('/login');
         }
-        console.log(error);
+        props.history.push('/login');
+        console.log('error in useEffect', error);
         setErrorMsg(error);
       });
   }, []);

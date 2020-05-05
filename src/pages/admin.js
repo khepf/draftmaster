@@ -7,6 +7,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { Card, CardContent, Divider } from '@material-ui/core';
 
 import TheNavBar from '../components/thenavbar';
+import Users from '../components/users';
 
 import ExcelReader from '../components/excelreader';
 import { authMiddleWare } from '../util/auth';
@@ -67,6 +68,7 @@ const Admin = (props) => {
             <Divider />
           </Card>
         </main>
+        <Users />
         </>
       );
     }

@@ -4,6 +4,8 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { authMiddleWare } from '../util/auth';
 
+import TheNavBar from '../components/thenavbar';
+
 import Teams from '../components/teams';
 import {
   Card,
@@ -65,6 +67,8 @@ const Draft = (props) => {
       );
     } else {
       return (
+        <>
+          <TheNavBar />
         <main className={classes.content}>
           <div className={classes.cards}>
             <h1>Draft Page</h1>
@@ -99,6 +103,7 @@ const Draft = (props) => {
             <Teams />
           </div>
         </main>
+        </>
       );
     }
 }

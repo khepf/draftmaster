@@ -13,6 +13,7 @@ import admin from './pages/admin';
 
 import draft from './components/draft';
 import testpage from './pages/testpage';
+import testpage2 from './pages/testpage2';
 
 
 const theme = createMuiTheme({
@@ -50,6 +51,7 @@ const App = () => {
               <Route exact path="/admin" component={admin} />
 
               <Route exact path="/test" component={testpage} />
+            <Route exact path="/test2" component={testpage2} />
             </Switch>
           </div>
         </Router>
